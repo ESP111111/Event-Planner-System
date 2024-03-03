@@ -86,9 +86,105 @@ public class users
         }
         return this.id;
     }
+    public int login(String User_name , String Password)
+    {
+      
+      String query = "select * from users where user_name = '"+User_name+"' and password = '"+Password+"'";        
 
+      try (Connection con = DatabaseConnection.getConnection();)
+      {
+          Statement stmt = con.createStatement();
+          ResultSet rs= stmt.executeQuery(query);
+          if (rs.next())
+          {
+              int maxId = rs.getInt(1);
+              this.id = maxId;
+              this.user_name = rs.getString(2);
+              this.first_name = rs.getString(3);
+              this.last_name = rs.getString(4);
+              this.email = rs.getString(5);
+              this.password = rs.getString(6);
+              this.image = rs.getString(7);
+              
+              String vendor_query = "select id from vendor where user_id ="+this.id;
+              String organizer_query = "select id from organizer where user_id ="+this.id;
+              String visitor_query = "select id from visitor where user_id ="+this.id; 
+               Statement stmt1 = con.createStatement();
+              ResultSet rs1= stmt1.executeQuery(vendor_query);
+               Statement stmt2 = con.createStatement();
+              ResultSet rs2= stmt2.executeQuery(organizer_query);
+               Statement stmt3 = con.createStatement();
+              ResultSet rs3= stmt3.executeQuery(visitor_query);
+             
+               if (rs1.next())
+               {
+                   this.type = 1;
+               }
+               else if (rs2.next())
+               {
+                   this.type = 2;
+               }
+               else if (rs3.next())
+               {
+                   this.type = 3;
+               }
+               else
+               {
+                   System.out.println("Invalid user name password and type"); 
+               }
+          }
+          else
+          {
+              System.out.println("Invalid user name or password"); 
+          }
+          
+      } catch (SQLException ex) {
+          System.out.println(ex); 
+      }
+      return this.id;
+    }
     public int get_id()
     {
         return this.id;
+    }
+    public String get_user_name()
+    {
+        return this.user_name;
+    }
+    public String get_first_name()
+    {
+        return this.first_name;
+    }
+    public String get_last_name()
+    {
+        return this.last_name;
+    }
+    public String get_email()
+    {
+        return this.email;
+    }
+    public String get_password()
+    {
+        return this.password;
+    }
+    public String get_image()
+    {
+        return this.image;
+    }
+     public int get_type()
+    {
+        return this.type;
+    }
+    @Override
+    public String toString()
+    {
+        return "Welcome " + first_name + " " + last_name + " in your profile:"+
+                "\n (1) id:"+this.id+               
+                "\n (2) user name:"+this.user_name+
+                "\n (3) first name:"+this.first_name+
+                "\n (4) last name:"+this.last_name+
+                "\n (5) email:"+this.email+
+                "\n (6) password:"+this.password+
+                "\n (7) image url:"+this.image;
     }
 }
