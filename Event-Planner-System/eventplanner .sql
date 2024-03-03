@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2024 at 08:16 PM
+-- Generation Time: Mar 03, 2024 at 04:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -95,6 +95,13 @@ CREATE TABLE `organizer` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `organizer`
+--
+
+INSERT INTO `organizer` (`id`, `user_id`) VALUES
+(4, 15);
+
 -- --------------------------------------------------------
 
 --
@@ -145,7 +152,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `user_name`, `first_name`, `last_name`, `email`, `password`, `image`) VALUES
 (1, 'rawand_aqel', 'Rawand', 'Aqel', 'rawand@gmail.com', 'rawand12345', 'q'),
-(3, 'RR1', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah');
+(5, 'RR1', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
+(14, 'vendor', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
+(15, 'organizer', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
+(16, 'visitor', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah');
 
 -- --------------------------------------------------------
 
@@ -158,6 +168,13 @@ CREATE TABLE `vendor` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `vendor`
+--
+
+INSERT INTO `vendor` (`id`, `user_id`) VALUES
+(7, 14);
+
 -- --------------------------------------------------------
 
 --
@@ -168,6 +185,13 @@ CREATE TABLE `visitor` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `visitor`
+--
+
+INSERT INTO `visitor` (`id`, `user_id`) VALUES
+(1, 16);
 
 -- --------------------------------------------------------
 
@@ -297,7 +321,7 @@ ALTER TABLE `event_place_order`
 -- AUTO_INCREMENT for table `organizer`
 --
 ALTER TABLE `organizer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `place`
@@ -315,19 +339,19 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `visitor`
 --
 ALTER TABLE `visitor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `visits_order`
@@ -343,58 +367,58 @@ ALTER TABLE `visits_order`
 -- Constraints for table `event_info`
 --
 ALTER TABLE `event_info`
-  ADD CONSTRAINT `event_info_ibfk_1` FOREIGN KEY (`organizer_id`) REFERENCES `organizer` (`id`),
-  ADD CONSTRAINT `event_info_ibfk_2` FOREIGN KEY (`event_category_id`) REFERENCES `event_category` (`id`);
+  ADD CONSTRAINT `event_info_ibfk_1` FOREIGN KEY (`organizer_id`) REFERENCES `organizer` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `event_info_ibfk_2` FOREIGN KEY (`event_category_id`) REFERENCES `event_category` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `event_meta`
 --
 ALTER TABLE `event_meta`
-  ADD CONSTRAINT `event_meta_ibfk_1` FOREIGN KEY (`event_info_id`) REFERENCES `event_info` (`id`);
+  ADD CONSTRAINT `event_meta_ibfk_1` FOREIGN KEY (`event_info_id`) REFERENCES `event_info` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `event_place_order`
 --
 ALTER TABLE `event_place_order`
-  ADD CONSTRAINT `event_place_order_ibfk_1` FOREIGN KEY (`event_info_id`) REFERENCES `event_info` (`id`),
-  ADD CONSTRAINT `event_place_order_ibfk_2` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
+  ADD CONSTRAINT `event_place_order_ibfk_1` FOREIGN KEY (`event_info_id`) REFERENCES `event_info` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `event_place_order_ibfk_2` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `organizer`
 --
 ALTER TABLE `organizer`
-  ADD CONSTRAINT `organizer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `organizer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `place`
 --
 ALTER TABLE `place`
-  ADD CONSTRAINT `place_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`id`);
+  ADD CONSTRAINT `place_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `ticket`
 --
 ALTER TABLE `ticket`
-  ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`visits_order_id`) REFERENCES `visits_order` (`id`);
+  ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`visits_order_id`) REFERENCES `visits_order` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vendor`
 --
 ALTER TABLE `vendor`
-  ADD CONSTRAINT `vendor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `vendor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `visitor`
 --
 ALTER TABLE `visitor`
-  ADD CONSTRAINT `visitor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `visitor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `visits_order`
 --
 ALTER TABLE `visits_order`
-  ADD CONSTRAINT `visits_order_ibfk_1` FOREIGN KEY (`visitor_id`) REFERENCES `visitor` (`id`),
-  ADD CONSTRAINT `visits_order_ibfk_2` FOREIGN KEY (`event_info_id`) REFERENCES `event_info` (`id`);
+  ADD CONSTRAINT `visits_order_ibfk_1` FOREIGN KEY (`visitor_id`) REFERENCES `visitor` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `visits_order_ibfk_2` FOREIGN KEY (`event_info_id`) REFERENCES `event_info` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
