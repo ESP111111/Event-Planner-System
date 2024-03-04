@@ -143,6 +143,7 @@ public class users
       }
       return this.id;
     }
+    //Getter
     public int get_id()
     {
         return this.id;
@@ -171,11 +172,126 @@ public class users
     {
         return this.image;
     }
-     public int get_type()
+    public int get_type()
     {
         return this.type;
     }
-    @Override
+    //update user profile
+    public int set_user_name(users user , String new_user_name)
+    {
+        int status = 0;
+         String query = "UPDATE users SET user_name = ? WHERE id = ?";
+        try(Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setString(1, new_user_name);
+            pst.setInt(2, user.get_id()); 
+            
+            pst.executeUpdate();
+            user.user_name = new_user_name;
+            status = 1;
+                       
+        } catch (SQLException e) {
+            System.out.println("Erorr in update user name"+e);
+        }
+        return status;
+    }
+      public int set_first_name(users user , String new_first_name)
+    {
+         int status = 0;
+         String query = "UPDATE users SET first_name = ? WHERE id = ?";
+        try(Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setString(1, new_first_name);
+            pst.setInt(2, user.get_id()); 
+            
+            pst.executeUpdate();
+            user.first_name = new_first_name;
+            status = 1;
+                       
+        } catch (SQLException e) {
+            System.out.println("Erorr in update first name"+e);
+        }
+        return status;
+    }
+        public int set_last_name(users user , String new_last_name)
+    {
+        int status = 0;
+         String query = "UPDATE users SET last_name = ? WHERE id = ?";
+        try(Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setString(1, new_last_name);
+            pst.setInt(2, user.get_id()); 
+            
+            pst.executeUpdate();
+            user.last_name = new_last_name;
+            status = 1;
+                       
+        } catch (SQLException e) {
+            System.out.println("Erorr in update last name"+e);
+        }
+        return status;
+    }
+      public int set_email(users user , String new_email)
+    {
+         int status = 0;
+         String query = "UPDATE users SET email= ? WHERE id = ?";
+        try(Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setString(1, new_email);
+            pst.setInt(2, user.get_id()); 
+            
+            pst.executeUpdate();
+            user.email = new_email;
+            status = 1;
+                       
+        } catch (SQLException e) {
+            System.out.println("Erorr in update email"+e);
+        }
+        return status;
+    }
+      public int set_password(users user , String new_password)
+    {
+        int status = 0;
+         String query = "UPDATE users SET password = ? WHERE id = ?";
+        try(Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setString(1, new_password);
+            pst.setInt(2, user.get_id()); 
+            
+            pst.executeUpdate();
+            user.password = new_password;
+            status = 1;
+                       
+        } catch (SQLException e) {
+            System.out.println("Erorr in update password"+e);
+        }
+        return status;
+    }
+    public int set_image(users user , String new_image)
+    {
+        int status = 0;
+         String query = "UPDATE users SET image = ? WHERE id = ?";
+        try(Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setString(1, new_image);
+            pst.setInt(2, user.get_id()); 
+            
+            pst.executeUpdate();
+            user.image = new_image;
+            status = 1;
+                       
+        } catch (SQLException e) {
+            System.out.println("Erorr in update image"+e);
+        }
+        return status;
+    }
+     @Override
     public String toString()
     {
         return "Welcome " + first_name + " " + last_name + " in your profile:"+
