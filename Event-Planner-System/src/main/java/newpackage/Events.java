@@ -81,5 +81,46 @@ public class Events
             System.out.println(e);
         }
     }
+    
+    public void get_one_event(int event_id) 
+    {
+         String query = "SELECT event_info.id, event_info.organizer_id, event_info.event_category_id, " +
+                   "event_info.name, event_info.description, event_info.event_date, event_info.event_time, " +
+                   "event_info.no_visitor, event_info.price_per_person, event_info.no_meals, event_info.meal_price, " +
+                   "event_info.no_drinks, event_info.drink_price, " +
+                   "CONCAT(users.first_name, ' ', users.last_name) AS organizer_name, " +
+                   "event_category.name AS category_name " +
+                   "FROM event_info " +
+                   "LEFT JOIN organizer ON organizer.id = event_info.organizer_id " +
+                   "LEFT JOIN users ON users.id = organizer.user_id " +
+                   "LEFT JOIN event_category ON event_category.id = event_info.event_category_id " +
+                   "WHERE event_info.id = ?;";
+
+   
+         try (Connection conn = DatabaseConnection.getConnection();
+              PreparedStatement pstmt = conn.prepareStatement(query))
+         {
+             pstmt.setInt(1, event_id);
+             ResultSet rs = pstmt.executeQuery();
+             if (rs.next()) {
+                 System.out.println("Event ID: " + rs.getInt("id"));
+                 System.out.println("Organizer Name: " + rs.getString("organizer_name"));
+                 System.out.println("Category Name: " + rs.getString("category_name"));
+                 System.out.println("Name: " + rs.getString("name"));
+                 System.out.println("Description: " + rs.getString("description"));
+                 System.out.println("Event Date: " + rs.getString("event_date"));
+                 System.out.println("Event Time: " + rs.getString("event_time"));
+                 System.out.println("Number of Visitors: " + rs.getInt("no_visitor"));
+                 System.out.println("Price per Person: " + rs.getFloat("price_per_person"));
+                 System.out.println("Number of Meals: " + rs.getInt("no_meals"));
+                 System.out.println("Meal Price: " + rs.getFloat("meal_price"));
+                 System.out.println("Number of Drinks: " + rs.getInt("no_drinks"));
+                 System.out.println("Drink Price: " + rs.getFloat("drink_price"));
+        }
+         } catch (SQLException e) 
+         {
+             System.out.println(e);
+         }
+    }
 }
 
