@@ -401,20 +401,32 @@ public class main_test
             }
             else if(i_1st == 2 ) // control panel
             {
-                System.out.println("(0) Go back");
-                System.out.println("{Your events page}");               
-                System.out.println("Enter your event number to control it:");
-                Events Es = new Events();
-                Es.print_org_events(user.user_id);
-                int i_2ed = scanner.nextInt();
-                if(i_2ed == 0)
+                while(true)
                 {
-                    break;
-                }
-                else
-                {
-                    
-                }
+                    System.out.println("(0) Go back");
+                    System.out.println("{Your events page}");               
+                    System.out.println("Enter your event number to control it:");
+                    Events Es = new Events();
+                    Es.print_org_events(user.user_id);
+                    int i_2ed = scanner.nextInt();
+                    if(i_2ed == 0)
+                    {
+                        break;
+                    }
+                    else             
+                    {
+                        while(true)
+                        {
+                            System.out.println("-----------------------");
+                            System.out.println("Full event information:");               
+                            Es.get_one_event(i_2ed);
+                            System.out.println("-----------------------");
+                            System.out.println("(1) Go back");
+                            
+                        }
+   
+                    }
+                } 
             }
             else
             {
