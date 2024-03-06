@@ -15,6 +15,7 @@ public class users
     private String email;
     private String password;
     private String image;
+    public int user_id;
     private int type; // 1- (1)vendor 2- (2)organizer 3- (3)visitor
     
     public users()
@@ -26,6 +27,7 @@ public class users
         email = null;
         password = null;
         image = null;
+        user_id = -1;
         type = -1;
     }        
     public int sign_up(String User_name,String First_name,String Last_name,String Email ,String Password,String Image,int type )
@@ -119,14 +121,19 @@ public class users
                if (rs1.next())
                {
                    this.type = 1;
+                   this.user_id = rs1.getInt(1);
                }
                else if (rs2.next())
                {
                    this.type = 2;
+                   this.user_id = rs2.getInt(1);
+
                }
                else if (rs3.next())
                {
                    this.type = 3;
+                   this.user_id = rs3.getInt(1);
+
                }
                else
                {
