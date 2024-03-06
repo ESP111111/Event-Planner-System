@@ -191,12 +191,61 @@ public class main_test
                                                             break;
                                                         }
                                                 }
-                                                
-                                                
+
                                             }
                                             else if(i_5th == 2)//Next options
                                             {
-                                                
+                                               if(user.get_type() == 1)       // vendor after login
+                                               {
+                                                   System.out.println("(1) Place controller\n(2) Go back");
+                                                   int i_6th = scanner.nextInt();
+                                                   if(i_6th == 1)
+                                                   {
+                                                       vendor(user);
+                                                   }
+                                                   else if(i_6th == 2)
+                                                   {
+                                                       break;
+                                                   }
+                                                   else
+                                                   {
+                                                       System.out.println("Incorrect input , please try again.");                                                   
+                                                   }
+                                               }
+                                               else if(user.get_type() == 2) // organizer after login
+                                               {
+                                                   System.out.println("(1) Event controller\n(2) Go back");
+                                                   int i_6th = scanner.nextInt();
+                                                   if(i_6th == 1)
+                                                   {
+                                                       organizer(user);
+                                                   }
+                                                   else if(i_6th == 2)
+                                                   {
+                                                       break;
+                                                   }  
+                                                   else
+                                                   {
+                                                       System.out.println("Incorrect input , please try again.");                                                   
+                                                   }
+                                               }
+                                               else                          //visitor
+                                               {
+                                                  System.out.println("(1) Show your Invitations \n(2) Go back");
+                                                   int i_6th = scanner.nextInt();
+                                                   if(i_6th == 1)
+                                                   {
+                                                       visitor(user);
+                                                   }
+                                                   else if(i_6th == 2)
+                                                   {
+                                                       break;
+                                                   }
+                                                   else
+                                                   {
+                                                       System.out.println("Incorrect input , please try again.");                                                   
+                                                   }
+                                               }
                                             }
                                             else//incorrect input
                                             {
@@ -285,5 +334,97 @@ public class main_test
                 System.out.println("Incorrect input , please try again.");
             }
         }        
+    } 
+    public static void vendor(users user)
+    {
+        
+    }
+    public static void organizer(users user)
+    {
+        while(true)
+        {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("(0) Go back");
+            System.out.println("(1) Add new event");                       
+            System.out.println("(2) Open event control panel");
+            int i_1st = scanner.nextInt();
+            
+            if(i_1st == 0)
+            {
+                break;
+            }
+            else if(i_1st == 1) // add new event
+            {
+                Events Es =new Events();
+                Event E = new Event();
+                
+                E.organizer_id = user.user_id;
+                
+                System.out.println("1 Enter category id in this category list :");
+                Es.print_categories();
+                E.event_category_id = scanner.nextInt();                
+                
+                System.out.println("2 Enter event name :");
+                E.name = scanner.next();
+                
+                System.out.println("3 Enter event date :");
+                E.event_date = scanner.next();
+                
+                System.out.println("4 Enter event time :");
+                E.event_time = scanner.next();
+                
+                System.out.println("5 Enter event description :");
+                E.description = scanner.next();
+                
+                System.out.println("6 Enter number of invitees :");
+                E.no_vesitors = scanner.nextInt();
+                
+                System.out.println("7 Enter price per visitor :");
+                E.price_per_visitor = scanner.nextFloat();
+                
+                System.out.println("8 Enter number of meals :");
+                E.no_meals = scanner.nextInt();
+                
+                System.out.println("9 Enter price per meal :");
+                E.meal_price = scanner.nextFloat();
+                
+                System.out.println("10 Enter number of drinks :");
+                E.no_drinks = scanner.nextInt();
+                
+                System.out.println("11 Enter price per drink :");
+                E.drink_price = scanner.nextFloat();
+                
+                Es.insert_new_event(E);
+                
+                System.out.println("Added successfuly");
+                System.out.println("------------------------");
+            }
+            else if(i_1st == 2 ) // control panel
+            {
+                System.out.println("(0) Go back");
+                System.out.println("{Your events page}");               
+                System.out.println("Enter your event number to control it:");
+                Events Es = new Events();
+                Es.print_org_events(user.user_id);
+                int i_2ed = scanner.nextInt();
+                if(i_2ed == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    
+                }
+            }
+            else
+            {
+                System.out.println("Incorrect input , please try again.");
+            }
+            
+        }
+    } 
+    public static void visitor(users user)
+    {
+        
     }
 }
