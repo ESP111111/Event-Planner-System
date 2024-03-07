@@ -172,5 +172,61 @@ public class Events
             System.out.println(ex);
         }
      }
+     
+      public void get_Invitations(int event_id) 
+    {
+         String query = "SELECT visitor_id , concat(users.first_name , ' ' , users.last_name) as \"user name\" ,\n" +
+                        "no_persons , VIP\n" +
+                        "FROM `visits_order`\n" +
+                        "left join visitor on visitor.id = visits_order.visitor_id\n" +
+                        "left join users on users.id = visitor.user_id\n" +
+                        "WHERE  event_info_id = ?;";
+
+         try (Connection conn = DatabaseConnection.getConnection();
+              PreparedStatement pstmt = conn.prepareStatement(query))
+         {
+             pstmt.setInt(1, event_id);
+             ResultSet rs = pstmt.executeQuery();
+              while (rs.next()) {
+                int visitor_id = rs.getInt("visitor_id");
+                String user_name = rs.getString("user name");
+                int no_visitors = rs.getInt("no_persons");
+                int VIP = rs.getInt("VIP");
+                String e_vip = null;
+                if(VIP == 0)
+                {
+                    e_vip = "NO";
+                }
+                else
+                {
+                    e_vip = "YES";
+                }
+                System.out.println("Visitor ID: " + visitor_id + " | Visitor name: " + user_name + " | no_persons: " + String.valueOf(no_visitors) + " | VIP: " + e_vip);
+            }
+         } catch (SQLException e) 
+         {
+             System.out.println(e);
+         }
+    }
+    
+     public void add_Invitation(int event_id,int visitor_id , int no_invites , int VIP)
+     {
+          String query = "INSERT INTO `visits_order` (`visitor_id`, `event_info_id`, `no_persons`, `VIP`) VALUES ( ?, ?, ?, ?);";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setInt(1, visitor_id);
+            pst.setInt(2, event_id);         
+            pst.setInt(3, no_invites);
+            pst.setInt(4, VIP);
+            
+            pst.executeUpdate();
+            System.out.println("Done");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex);
+        }
+     }
 }
 

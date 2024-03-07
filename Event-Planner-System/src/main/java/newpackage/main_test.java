@@ -468,6 +468,55 @@ public class main_test
                                     }
                                 }
                             }
+                             else if(i_3ed == 2) // Invitations
+                            {
+                                while(true)
+                                {
+                                    System.out.println("-----------------------");
+                                    System.out.println("Invitations for this event:");
+                                    Es.get_Invitations(i_2ed);
+                                    System.out.println("(0) Go back");
+                                    System.out.println("(1) Invite new user ");
+                                    int i_4th = scanner.nextInt();
+                                    if(i_4th == 0)
+                                    {
+                                        break;
+                                    }
+                                    else if(i_4th == 1)
+                                    {
+                                        System.out.println("{Invite new user}"); 
+                                        System.out.println("Enter user id ");
+                                        int visitor_id = scanner.nextInt();
+                                        System.out.println("Enter  Invitations number for this user ");
+                                        int no_invites = scanner.nextInt();
+                                        
+                                        System.out.println("Is this a VIP invitation?");
+                                        System.out.println("(0) No");                
+                                        System.out.println("(1) Yes");
+                                        int type = scanner.nextInt();
+                                        if(type == 0 || type == 1)
+                                        {
+                                            Es.add_Invitation(i_2ed,visitor_id , no_invites ,type);
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Incorrect input , please try again.");
+                                        }
+                                    }
+                                }
+                            }
+                            else if(i_3ed == 3) // update
+                            {
+                               
+                            }
+                            else if(i_3ed == 4) // Delete event
+                            {
+                               
+                            }
+                            else if(i_3ed == 5) // choise event place
+                            {
+                               
+                            }
                             
 
                             
