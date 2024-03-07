@@ -122,5 +122,55 @@ public class Events
              System.out.println(e);
          }
     }
+    
+     public void get_event_meta(int event_id) 
+    {
+         String query = "SELECT * FROM event_meta WHERE event_info_id = ?;";
+
+   
+         try (Connection conn = DatabaseConnection.getConnection();
+              PreparedStatement pstmt = conn.prepareStatement(query))
+         {
+             pstmt.setInt(1, event_id);
+             ResultSet rs = pstmt.executeQuery();
+              while (rs.next()) {
+                int id = rs.getInt("id");
+                String link = rs.getString("link");
+                int type = rs.getInt("type");
+                String e_type = null;
+                if(type == 1)
+                {
+                    e_type = "Image";
+                }
+                else
+                {
+                    e_type = "Video";
+                }
+                System.out.println("ID: " + id + " | Link: " + link + " | Date: " + e_type );
+            }
+         } catch (SQLException e) 
+         {
+             System.out.println(e);
+         }
+    }
+    
+     public void add_meta(int event_id , String link , int type)
+     {
+          String query = "INSERT INTO `event_meta` (`event_info_id`, `link`, `type`) VALUES (? ,? ,? );";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setInt(1, event_id);
+            pst.setString(2, link);
+            pst.setInt(3, type);
+            
+            pst.executeUpdate();
+            System.out.println("Done");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex);
+        }
+     }
 }
 
