@@ -228,5 +228,28 @@ public class Events
             System.out.println(ex);
         }
      }
+     
+    public boolean delete_event(int event_id)
+    {
+        String query = "DELETE FROM event_info WHERE id = ?;";
+        boolean isSuccess = false;
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query))
+        {
+            pstmt.setInt(1, event_id);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                isSuccess = true;
+                System.out.println("Event with ID " + event_id + " was successfully deleted.");
+            } else {
+                System.out.println("No event found with ID " + event_id + ", or it could not be deleted.");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("SQL error occurred: " + e.getMessage());
+        }
+        return isSuccess; 
+    }
 }
 
