@@ -421,7 +421,55 @@ public class main_test
                             System.out.println("Full event information:");               
                             Es.get_one_event(i_2ed);
                             System.out.println("-----------------------");
-                            System.out.println("(1) Go back");
+                            System.out.println("(0) Go back");
+                            System.out.println("(1) Enter to meta(images & videos)");
+                            System.out.println("(2) Enter to Invitations");
+                            System.out.println("(3) Update event information");
+                            System.out.println("(4) Delete this event");
+                            System.out.println("(5) Enter places controler");                            
+                            System.out.println("-----------------------");
+                            int i_3ed = scanner.nextInt();
+                            if(i_3ed == 0) // go back
+                            {
+                                break;
+                            }
+                            else if(i_3ed == 1) // meta data
+                            {
+                                while(true)
+                                {
+                                    System.out.println("-----------------------");
+                                    System.out.println("Meta data for this event:");
+                                    Es.get_event_meta(i_2ed);
+                                    System.out.println("(0) Go back");
+                                    System.out.println("(1) Add new link");
+                                    int i_4th = scanner.nextInt();
+                                    if(i_4th == 0)
+                                    {
+                                        break;
+                                    }
+                                    else if(i_4th == 1)
+                                    {
+                                        System.out.println("{Add new link}");                                        
+                                        System.out.println("Enter meta link");
+                                        String meta_link = scanner.next();
+                                        
+                                        System.out.println("Choose type number ");
+                                        System.out.println("(1) Image");                
+                                        System.out.println("(2) Video");
+                                        int type = scanner.nextInt();
+                                        if(type == 1 || type == 2)
+                                        {
+                                            Es.add_meta(i_2ed, meta_link, type);
+                                        }
+                                        else
+                                        {
+                                            System.out.println("Incorrect input , please try again.");
+                                        }
+                                    }
+                                }
+                            }
+                            
+
                             
                         }
    
