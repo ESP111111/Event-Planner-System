@@ -511,6 +511,14 @@ public class main_test
                             }
                             else if(i_3ed == 4) // Delete event
                             {
+                                System.out.println("Are you sure you want to delete it? If yes, enter the number 1. Otherwise, enter 0: ");
+                                
+                                int ch = scanner.nextInt();
+                                if(ch == 1)
+                                {
+                                    Es.delete_event(i_2ed);
+                                     break;
+                                }
                                
                             }
                             else if(i_3ed == 5) // choise event place
