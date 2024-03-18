@@ -381,17 +381,21 @@ public class main_test
                     
                     while(true)
                     {
-                        P.print_one_place(place_id);
+                        
                         System.out.println("-------------------");
                         System.out.println("(0) Go back");
                         System.out.println("(1) Show events order for this place");
-                        System.out.println("(1) Update place");
-                        System.out.println("(2) delete place");
+                        System.out.println("(2) Update place");
+                        System.out.println("(3) delete place");
                         System.out.println("-------------------");
                         int i_2ed = scanner.nextInt();
                         if(i_2ed == 0)
                         {
                             break;
+                        }
+                        else if(i_2ed == 1)
+                        {
+                            P.print_one_place(place_id);
                         }
                         
                     }
