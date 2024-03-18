@@ -251,5 +251,27 @@ public class Events
         }
         return isSuccess; 
     }
+    
+     public void order_to_place(int place_id , int event_id , String start_date ,  String end_date ,  String start_time ,  String end_time  )
+     {
+      String query = "INSERT INTO `event_place_order` (`event_info_id`, `place_id`, `start_date`, `end_date`, `start_time`, `end_time`) VALUES ( ? , ? , ? , ? , ? , ?);";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.setInt(1, event_id);
+            pst.setInt(2, place_id);
+            pst.setString(3, start_date);
+            pst.setString(4, end_date);
+            pst.setString(5 , start_time);
+            pst.setString(6, end_time);
+            
+            pst.executeUpdate();
+            
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex);
+        }
+     }
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2024 at 06:25 PM
+-- Generation Time: Mar 18, 2024 at 02:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,9 +29,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `event_category` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `icon_url` varchar(1024) DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event_category`
+--
+
+INSERT INTO `event_category` (`id`, `name`) VALUES
+(1, 'birthday'),
+(2, 'wedding');
 
 -- --------------------------------------------------------
 
@@ -55,6 +62,16 @@ CREATE TABLE `event_info` (
   `drink_price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `event_info`
+--
+
+INSERT INTO `event_info` (`id`, `organizer_id`, `event_category_id`, `name`, `event_date`, `event_time`, `description`, `no_visitor`, `price_per_person`, `no_meals`, `meal_price`, `no_drinks`, `drink_price`) VALUES
+(1, 6, 1, 'Rawand birthday', '2024-03-06', '18:09:00', 'Welcome all.', 400, 10, 350, 15, 350, 3),
+(4, 4, 2, 'awww', '2024-03-06', '18:09:00', 'ssss', 500, 4, 700, 2, 900, 3),
+(5, 4, 1, 'aa', '2024-03-25', '04:08:15', 'sssaaww', 1, 2, 4, 3, 1, 5),
+(7, 7, 1, 'QQ', '2024-07-13', '15:30:00', 'eeeeee', 500, 0, 550, 0, 600, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -67,6 +84,18 @@ CREATE TABLE `event_meta` (
   `link` varchar(1024) DEFAULT NULL,
   `type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event_meta`
+--
+
+INSERT INTO `event_meta` (`id`, `event_info_id`, `link`, `type`) VALUES
+(1, 4, 'aabbcc', 1),
+(2, 4, 'abcdefg', 2),
+(3, 5, 'qqwwee', 1),
+(4, 4, 'hhhh', 1),
+(5, 4, 'kkkkkkk', 1),
+(6, 7, 'dsgfhfggfaSFD', 1);
 
 -- --------------------------------------------------------
 
@@ -84,6 +113,16 @@ CREATE TABLE `event_place_order` (
   `end_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `event_place_order`
+--
+
+INSERT INTO `event_place_order` (`id`, `event_info_id`, `place_id`, `start_date`, `end_date`, `start_time`, `end_time`) VALUES
+(1, 4, 3, '2024-03-19', '2024-03-19', '12:08:08', '22:08:08'),
+(2, 5, 3, '2024-03-21', '2024-03-23', '08:10:40', '02:11:40'),
+(3, 7, 3, '2024-03-19', '2024-03-23', '08:10:40', '02:11:40'),
+(4, 1, 3, '2024-03-18', '2024-03-18', '15:30:00', '23:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -100,7 +139,9 @@ CREATE TABLE `organizer` (
 --
 
 INSERT INTO `organizer` (`id`, `user_id`) VALUES
-(4, 15);
+(4, 15),
+(6, 20),
+(7, 23);
 
 -- --------------------------------------------------------
 
@@ -114,9 +155,16 @@ CREATE TABLE `place` (
   `name` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
-  `Price_per_visitor` float DEFAULT NULL,
+  `Price_per_hour` float DEFAULT NULL,
   `rate` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `place`
+--
+
+INSERT INTO `place` (`id`, `vendor_id`, `name`, `location`, `capacity`, `Price_per_hour`, `rate`) VALUES
+(3, 7, 'Aya', 'Nablus', 600, 1500, 5);
 
 -- --------------------------------------------------------
 
@@ -154,8 +202,12 @@ INSERT INTO `users` (`id`, `user_name`, `first_name`, `last_name`, `email`, `pas
 (1, 'rawand_aqel', 'Rawand', 'Aqel', 'rawand@gmail.com', 'rawand12345', 'q'),
 (5, 'RR1', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
 (14, 'vendor', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
-(15, 'organizer', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
-(16, 'visitor', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah');
+(15, 'ORGA', 'Ah', 'Mh', 'Ah@gmail.com', 'ahmad11111', 'asdfgh'),
+(16, 'Vis', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
+(20, 'Moh_1', 'Mohammad', 'Ali', 'Moh@gmail.com', 'moh12345', '12qa'),
+(21, 'qq', 'ww', 'ss', 'ff@gmail.com', 'qq11111', 'ssssdddd'),
+(22, 'ttt', 'jj', 'ddd', 'qqq@gmail.com', 'aaaa1111', 'ggffssaa'),
+(23, 'Iiii', 'Aya', 'Aya', 'sfg@gmail.com', 'Aya11111', 'qwerwtewasd');
 
 -- --------------------------------------------------------
 
@@ -191,7 +243,9 @@ CREATE TABLE `visitor` (
 --
 
 INSERT INTO `visitor` (`id`, `user_id`) VALUES
-(1, 16);
+(1, 16),
+(3, 21),
+(5, 22);
 
 -- --------------------------------------------------------
 
@@ -206,6 +260,17 @@ CREATE TABLE `visits_order` (
   `no_persons` int(11) DEFAULT NULL,
   `VIP` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `visits_order`
+--
+
+INSERT INTO `visits_order` (`id`, `visitor_id`, `event_info_id`, `no_persons`, `VIP`) VALUES
+(1, 1, 4, 5, 0),
+(2, 5, 5, 1, 1),
+(4, 3, 4, 2, 1),
+(5, 3, 7, 5, 0),
+(6, 1, 7, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -297,37 +362,37 @@ ALTER TABLE `visits_order`
 -- AUTO_INCREMENT for table `event_category`
 --
 ALTER TABLE `event_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `event_info`
 --
 ALTER TABLE `event_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `event_meta`
 --
 ALTER TABLE `event_meta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `event_place_order`
 --
 ALTER TABLE `event_place_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `organizer`
 --
 ALTER TABLE `organizer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `place`
 --
 ALTER TABLE `place`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ticket`
@@ -339,7 +404,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `vendor`
@@ -351,13 +416,13 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `visitor`
 --
 ALTER TABLE `visitor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `visits_order`
 --
 ALTER TABLE `visits_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

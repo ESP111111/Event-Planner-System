@@ -337,7 +337,69 @@ public class main_test
     } 
     public static void vendor(users user)
     {
-        
+
+        places P = new places();
+         while(true)
+        {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("(0) Go back");
+            System.out.println("(1) Add new place");                       
+            System.out.println("(2) Open place control panel");
+            int i_1st = scanner.nextInt();
+            if(i_1st == 0)
+            {
+                break;
+            }
+            else if(i_1st == 1) // add new place
+            {
+                int vendor_id = user.user_id;
+                System.out.println("1 Enter place name :");
+                String name = scanner.next();
+                 System.out.println("2 Enter place location :");
+                String location = scanner.next();
+                System.out.println("3 Enter place capacity :");
+                int capacity = scanner.nextInt();
+                System.out.println("4 Enter price per hour :");
+                float price = scanner.nextFloat();
+                System.out.println("5 Enter place rate :");
+                int rate = scanner.nextInt();
+                
+                P.insert_new_place(vendor_id, name, location, capacity, price, rate);
+                
+                
+                System.out.println("Added successfuly");
+                System.out.println("------------------------");
+                
+            }
+            else if(i_1st == 2) // plcae control
+            {
+                while(true)
+                {
+                    System.out.println("This is your places : \nEnter place id to control it");
+                    P.print_all_places(user.user_id);
+                    int place_id = scanner.nextInt();
+                    
+                    while(true)
+                    {
+                        P.print_one_place(place_id);
+                        System.out.println("-------------------");
+                        System.out.println("(0) Go back");
+                        System.out.println("(1) Show events order for this place");
+                        System.out.println("(1) Update place");
+                        System.out.println("(2) delete place");
+                        System.out.println("-------------------");
+                        int i_2ed = scanner.nextInt();
+                        if(i_2ed == 0)
+                        {
+                            break;
+                        }
+                        
+                    }
+                    break;
+                            
+                }
+            }
+        }
     }
     public static void organizer(users user)
     {
@@ -523,7 +585,19 @@ public class main_test
                             }
                             else if(i_3ed == 5) // choise event place
                             {
-                               
+                                System.out.println("Enter place ID :");
+                                int place_id = scanner.nextInt();
+                                 System.out.println("Enter start date :");
+                                String start_date = scanner.next();
+                                System.out.println("Enter end date :");
+                                String end_date = scanner.next();
+                                System.out.println("Enter start time :");
+                                String start_time = scanner.next();
+                                System.out.println("Enter end date :");
+                                String end_time = scanner.next();
+
+                                Es.order_to_place(place_id, i_2ed , start_date ,end_date ,start_time ,end_time );
+                                System.out.println("Order successfuly");
                             }
                             
 
