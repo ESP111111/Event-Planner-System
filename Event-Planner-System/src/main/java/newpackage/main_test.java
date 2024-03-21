@@ -605,64 +605,45 @@ public class main_test
                                 System.out.println("Order successfuly");
                             }
                              else if (i_3ed == 6)
- {
-     while(true){
-      System.out.println("(0) Go back");
-      System.out.println("(1) Search by name");                       
-      System.out.println("(2) Search by location");
-      System.out.println("(3) Search by price");
-      System.out.println("(4) Search by period Time");
-      int oy4 = scanner.nextInt();
-      
-      if(oy4 == 0)
-      {
-          break;
-      }
-      else if(oy4==1)
-      {
-        places od = new places()  ;
-          
-          od.srch_byname();
-          System.out.print("\n");
-           
-          
-      }
-      else if (oy4==2)
-      {
-      places om=new places() ;
-      om.srch_bylocation();
-      System.out.print("\n");
-     
-      }
-     
-      
-      
-      else if(oy4==3)
-      {
-        places os =new places() ;
-        os.srch_byprice();
-          System.out.print("\n");
-          
-      }
-      
-      else if(oy4==4)
-      {
-        places ov =new places() ;
-        ov.srch_byperiod();
-          System.out.print("\n");
-          
-      }
-      
-      
-     
-     
- }
-                            
-                            
-                            
-
-                            
-                        }
+                             {
+                                 while(true)
+                                 {
+                                     System.out.println("(0) Go back");
+                                     System.out.println("(1) Search by name");                       
+                                     System.out.println("(2) Search by location");
+                                     System.out.println("(3) Search by price");
+                                     System.out.println("(4) Search by period Time");
+                                     int oy4 = scanner.nextInt();
+                                     if(oy4 == 0)
+                                     {
+                                         break;
+                                     }
+                                     else if(oy4==1)
+                                     {
+                                         places od = new places()  ;
+                                         od.srch_byname();
+                                         System.out.print("\n");
+                                     }
+                                     else if (oy4==2)
+                                     {
+                                         places om=new places() ;
+                                         om.srch_bylocation();
+                                         System.out.print("\n");
+                                     }
+                                     else if(oy4==3)
+                                     {
+                                         places os =new places() ;
+                                         os.srch_byprice();
+                                         System.out.print("\n");
+                                     }
+                                     else if(oy4==4)
+                                     {
+                                         places ov =new places() ;
+                                         ov.srch_byperiod();
+                                         System.out.print("\n");
+                                     }
+                                 }
+                             }
                         }
    
                     }
@@ -672,7 +653,6 @@ public class main_test
             {
                 System.out.println("Incorrect input , please try again.");
             }
-            
         }
     } 
     public static void visitor(users user)
