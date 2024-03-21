@@ -656,7 +656,21 @@ public class main_test
         }
     } 
     public static void visitor(users user)
-    {
-        
+    { 
+        while (true) 
+        {   Scanner scanner = new Scanner(System.in);
+            Visitor V = new Visitor();
+            V.my_invitations(user.user_id);
+            System.err.println("(0) Go Back");
+            int i_1st = scanner.nextInt();
+            if(i_1st == 0)
+            {
+                break;
+            }
+            else
+            {      
+               System.out.println("Incorrect input , please try again.");
+            }
+        }    
     }
 }

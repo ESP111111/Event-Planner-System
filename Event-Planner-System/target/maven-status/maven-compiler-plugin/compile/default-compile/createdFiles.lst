@@ -1,6 +1,7 @@
 newpackage\DatabaseConnection.class
 newpackage\places.class
+newpackage\Visitor.class
+newpackage\Events.class
 newpackage\users.class
 newpackage\Event.class
 newpackage\main_test.class
-newpackage\Events.class
