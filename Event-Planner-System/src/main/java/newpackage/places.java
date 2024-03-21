@@ -6,7 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.Scanner;
+import java.sql.*;
 public class places
 { 
   public void insert_new_place(int vendor_id , String name,String location , int capacity , float price , int rate)
@@ -54,6 +55,9 @@ public class places
   }
   
   public void print_one_place(int place_id)
+          
+          
+        
   {
      String query = "select \n" +
              "event_info.id,\n" +
@@ -92,4 +96,304 @@ public class places
         }
      
   } 
+  
+  
+  // search code
+  
+  
+      public void srch_byname(){
+         
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("Enter the name of the place to search: ");
+         String placeName = scanner.nextLine();
+         
+           String sql = "SELECT * FROM place WHERE name = ?";
+           String sqlReservation = "SELECT COUNT(*) AS reservation_count FROM event_place_order WHERE place_id = ?";
+           String sqlReservationDetails = "SELECT start_date, end_date, start_time, end_time FROM event_place_order WHERE place_id = ?";
+           
+           
+
+            try ( Connection conn = DatabaseConnection.getConnection(); 
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        PreparedStatement pstmtReservation = conn.prepareStatement(sqlReservation);
+        PreparedStatement pstmtReservationDetails = conn.prepareStatement(sqlReservationDetails)) {
+     
+    pstmt.setString(1, placeName);
+    ResultSet rs = pstmt.executeQuery();
+    boolean placeFound = false;
+
+    // Process the result set
+    while (rs.next()) {
+        placeFound = true;
+        int id = rs.getInt("id");
+        String name = rs.getString("name");
+        pstmtReservation.setInt(1, id);
+        ResultSet rsReservation = pstmtReservation.executeQuery();
+
+        if (rsReservation.next()) {
+            int reservationCount = rsReservation.getInt("reservation_count");
+            if (reservationCount > 0) {
+                int vendorId = rs.getInt("vendor_id");
+                String location = rs.getString("location");
+                int capacity = rs.getInt("capacity");
+                float pricePerHour = rs.getFloat("Price_per_hour"); // Corrected column name
+                float rate = rs.getFloat("rate");
+
+                // Print the place details
+                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking ");
+
+                pstmtReservationDetails.setInt(1, id);
+                ResultSet rsReservationDetails = pstmtReservationDetails.executeQuery();
+
+                // Assuming there could be multiple reservations, iterate through them
+                while (rsReservationDetails.next()) {
+                    Date startDate = rsReservationDetails.getDate("start_date");
+                    Date endDate = rsReservationDetails.getDate("end_date");
+                    Time startTime = rsReservationDetails.getTime("start_time");
+                    Time endTime = rsReservationDetails.getTime("end_time");
+
+                    // Print the reservation details
+                    System.out.println("Date(" + startDate + " to " + endDate + ")" + " Time(" + startTime + " to " + endTime + ")");
+                }
+            } else {
+                int vendorId = rs.getInt("vendor_id");
+                String location = rs.getString("location");
+                int capacity = rs.getInt("capacity");
+                float pricePerHour = rs.getFloat("Price_per_hour"); // Corrected column name
+                float rate = rs.getFloat("rate");
+
+                // Print the place details
+                System.out.println("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has not been booking");
+            }
+        }
+    }
+    if (!placeFound) {
+        System.out.println("No place found with the name: " + placeName);
+    }
+} catch (SQLException e) {
+    System.out.println("Error executing query: " + e.getMessage());
 }
+ 
+          
+          
+     }
+          
+          
+          
+          
+     public void srch_bylocation()
+      
+      {
+        Scanner scanner = new Scanner(System.in);
+System.out.println("Enter the location of the place to search: ");
+String locationName = scanner.nextLine();
+String sql = "SELECT * FROM place WHERE location = ?";
+String sqlReservation = "SELECT COUNT(*) AS reservation_count FROM event_place_order WHERE place_id = ?";
+String sqlReservationDetails = "SELECT start_date, end_date, start_time, end_time FROM event_place_order WHERE place_id = ?";
+
+
+
+
+try (Connection conn = DatabaseConnection.getConnection(); 
+     PreparedStatement pstmt = conn.prepareStatement(sql);
+     PreparedStatement pstmtReservation = conn.prepareStatement(sqlReservation);
+     PreparedStatement pstmtReservationDetails = conn.prepareStatement(sqlReservationDetails)) {
+    
+    pstmt.setString(1, locationName);
+    ResultSet rs = pstmt.executeQuery();
+    boolean placeFound = false;
+
+    
+    
+    
+    // Process the result set
+    while (rs.next()) {
+        placeFound = true;
+        int id = rs.getInt("id");
+        String location = rs.getString("location");
+        pstmtReservation.setInt(1, id);
+        ResultSet rsReservation = pstmtReservation.executeQuery();
+
+        if (rsReservation.next()) {
+            int reservationCount = rsReservation.getInt("reservation_count");
+            if (reservationCount > 0) {
+                int vendorId = rs.getInt("vendor_id");
+                String name = rs.getString("name");
+                int capacity = rs.getInt("capacity");
+                float pricePerHour = rs.getFloat("Price_per_hour"); // Changed to Price_per_hour
+                float rate = rs.getFloat("rate");
+
+                // Print the place details
+                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking ");
+
+                
+                
+                pstmtReservationDetails.setInt(1, id);
+                ResultSet rsReservationDetails = pstmtReservationDetails.executeQuery();
+
+                // Assuming there could be multiple reservations, iterate through them
+                while (rsReservationDetails.next()) {
+                    Date startDate = rsReservationDetails.getDate("start_date");
+                    Date endDate = rsReservationDetails.getDate("end_date");
+                    Time startTime = rsReservationDetails.getTime("start_time");
+                    Time endTime = rsReservationDetails.getTime("end_time");
+
+                    // Print the reservation details
+                    System.out.println("Date(" + startDate + " to " + endDate + ")" + " Time(" + startTime + " to " + endTime + ")");
+                }
+            } else {
+                int vendorId = rs.getInt("vendor_id");
+                String name = rs.getString("name");
+                int capacity = rs.getInt("capacity");
+                float pricePerHour = rs.getFloat("Price_per_hour"); // Changed to Price_per_hour
+                float rate = rs.getFloat("rate");
+
+                // Print the place details
+                System.out.println("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has not been booking");
+            }
+        }
+    }
+
+    if (!placeFound) {
+        System.out.println("No place found with the location: " + locationName);
+    }
+} catch (SQLException e) {
+    System.out.println("Error executing query: " + e.getMessage());
+}
+ 
+          
+          
+          
+          
+      }
+     
+    
+    
+    public void srch_byprice()
+    {
+         
+        Scanner scanner = new Scanner(System.in);
+System.out.println("Enter the maximum hourly price of the place to search: ");
+float place_maxHourlyPrice = scanner.nextFloat();
+
+String sql = "SELECT * FROM place WHERE Price_per_hour <= ?";
+String sqlReservation = "SELECT COUNT(*) AS reservation_count FROM event_place_order WHERE place_id = ?";
+String sqlReservationDetails = "SELECT start_date, end_date, start_time, end_time FROM event_place_order WHERE place_id = ?";
+
+try ( Connection conn = DatabaseConnection.getConnection(); 
+      PreparedStatement pstmt = conn.prepareStatement(sql);
+      PreparedStatement pstmtReservation = conn.prepareStatement(sqlReservation);
+      PreparedStatement pstmtReservationDetails = conn.prepareStatement(sqlReservationDetails)) {
+   
+    pstmt.setFloat(1, place_maxHourlyPrice);
+    ResultSet rs = pstmt.executeQuery();
+    boolean placeFound = false;
+
+    // Process the result set
+    while (rs.next()) {
+        placeFound = true;
+        int id = rs.getInt("id");
+        float pricePerHour = rs.getFloat("Price_per_hour");
+        pstmtReservation.setInt(1, id);
+        ResultSet rsReservation = pstmtReservation.executeQuery();
+
+        if (rsReservation.next()) {
+            int reservationCount = rsReservation.getInt("reservation_count");
+            if (reservationCount > 0) {
+                int vendorId = rs.getInt("vendor_id");
+                String location = rs.getString("location");
+                int capacity = rs.getInt("capacity");
+                String name= rs.getString("name");
+                float rate = rs.getFloat("rate");
+
+                // Print the place details
+                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking ");
+
+                pstmtReservationDetails.setInt(1, id);
+                ResultSet rsReservationDetails = pstmtReservationDetails.executeQuery();
+
+                // Assuming there could be multiple reservations, iterate through them
+                while (rsReservationDetails.next()) {
+                    Date startDate = rsReservationDetails.getDate("start_date");
+                    Date endDate = rsReservationDetails.getDate("end_date");
+                    Time startTime = rsReservationDetails.getTime("start_time");
+                    Time endTime = rsReservationDetails.getTime("end_time");
+
+                    // Print the reservation details
+                    System.out.println("Date(" + startDate + " to " + endDate + ")" + " Time(" + startTime + " to " + endTime + ")");
+                }
+            } else {
+                int vendorId = rs.getInt("vendor_id");
+                String location = rs.getString("location");
+                int capacity = rs.getInt("capacity");
+                String name = rs.getString("name");
+                float rate = rs.getFloat("rate");
+
+                // Print the place details
+                System.out.println("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has not been booking");
+            }
+        }
+    }
+
+    if (!placeFound) {
+        System.out.println("No place found with the hourly price or less: " + place_maxHourlyPrice);
+    }
+} catch (SQLException e) {
+    System.out.println("Error executing query: " + e.getMessage());
+}
+
+        
+        
+        
+    }
+    
+    
+    public void srch_byperiod()
+    {  
+          Scanner scanner = new Scanner(System.in);
+
+System.out.println("Enter start date (YYYY-MM-DD): ");
+String startDate = scanner.nextLine();
+System.out.println("Enter start time (HH:MM:SS): ");
+String startTime = scanner.nextLine();
+System.out.println("Enter end time (HH:MM:SS): ");
+String endTime = scanner.nextLine();
+
+String sql = "SELECT p.id, p.name, p.location, p.capacity, p.Price_per_hour, p.rate " +
+             "FROM place p " +
+             "WHERE p.id NOT IN (" +
+             "SELECT o.place_id " +
+             "FROM event_place_order o " +
+             "WHERE o.start_date = ? AND o.start_time <= ? AND o.end_time >= ?)";
+
+try (Connection conn = DatabaseConnection.getConnection();
+     PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+    pstmt.setString(1, startDate);
+    pstmt.setString(2, startTime);
+    pstmt.setString(3, endTime);
+
+    ResultSet rs = pstmt.executeQuery(); 
+    System.out.println("The places available for booking based on the date you entered:");
+    System.out.print("\n");
+    while (rs.next()) {
+        // Use the column names as they appear in the SQL statement above
+        System.out.println("Place ID: " + rs.getInt("id") + " | " +
+                           "Name: " + rs.getString("name") + " | " +
+                           "Location: " + rs.getString("location") + " | " +
+                           "Capacity: " + rs.getInt("capacity") + " | " +
+                           "Price Per Hour: " + rs.getFloat("Price_per_hour") + " | " +
+                           "Rate: " + rs.getFloat("rate"));
+    }
+} catch (SQLException e) {
+    System.out.println("Error executing query: " + e.getMessage());
+}
+    
+   
+  
+  
+  
+  
+}
+}
+
