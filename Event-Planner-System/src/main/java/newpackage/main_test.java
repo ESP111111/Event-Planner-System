@@ -1,11 +1,21 @@
 package newpackage;
 
+import java.awt.Color;
 import java.util.Scanner;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class main_test 
 {
+     
+       
+        
+        
     public static void main(String[] args)
     {
+         JOptionPane.showMessageDialog(null, "Start");       
         //Create Scanner Object
         Scanner scanner = new Scanner(System.in);
         
@@ -494,6 +504,7 @@ public class main_test
                             System.out.println("(4) Delete this event");
                             System.out.println("(5) Enter places controler"); 
                             System.out.println("(6) Search with places ");
+                            System.out.println("(7) Show event finance report");
                             System.out.println("-----------------------");
                             int i_3ed = scanner.nextInt();
                             if(i_3ed == 0) // go back
@@ -642,6 +653,17 @@ public class main_test
                                          ov.srch_byperiod();
                                          System.out.print("\n");
                                      }
+                                 }
+                             }
+                             else if (i_3ed == 7)
+                             {
+                                 finance f = new finance();
+                                 f.event_report(i_2ed);
+                                 System.out.println("(0) Go Back");
+                                 int i_4ed = scanner.nextInt();
+                                 if(i_4ed == 0)
+                                 {
+                                     break;
                                  }
                              }
                         }
