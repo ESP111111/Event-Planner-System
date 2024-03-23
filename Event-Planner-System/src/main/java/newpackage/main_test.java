@@ -505,6 +505,7 @@ public class main_test
                             System.out.println("(5) Enter places controler"); 
                             System.out.println("(6) Search with places ");
                             System.out.println("(7) Show event finance report");
+                            System.out.println("(8) Show enhancment finance report");
                             System.out.println("-----------------------");
                             int i_3ed = scanner.nextInt();
                             if(i_3ed == 0) // go back
@@ -659,6 +660,17 @@ public class main_test
                              {
                                  finance f = new finance();
                                  f.event_report(i_2ed);
+                                 System.out.println("(0) Go Back");
+                                 int i_4ed = scanner.nextInt();
+                                 if(i_4ed == 0)
+                                 {
+                                     break;
+                                 }
+                             }
+                             else if(i_3ed == 8)
+                             {
+                                finance f = new finance();
+                                 f.enhancment_report(i_2ed);
                                  System.out.println("(0) Go Back");
                                  int i_4ed = scanner.nextInt();
                                  if(i_4ed == 0)
