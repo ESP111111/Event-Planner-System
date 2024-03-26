@@ -81,7 +81,11 @@ public class users
             pst1.executeUpdate();
             // close DB conniction
 //            DatabaseConnection.closeConnection();
+            
+            
             System.out.println("Create account succeeded");
+            
+            
             
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -144,11 +148,27 @@ public class users
           {
               System.out.println("Invalid user name or password"); 
           }
-          
+          query = "UPDATE users SET token = '1' where users.id = "+this.id+";";
+          PreparedStatement pst = con.prepareStatement(query);
+          pst.executeUpdate();
+ 
       } catch (SQLException ex) {
           System.out.println(ex); 
       }
       return this.id;
+    }
+    
+    public void logout(int user_id)
+    {
+        String query = "UPDATE users SET token = '0' where users.id = "+this.id+";";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(query))
+        {
+            pst.executeUpdate();
+        }
+         catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
     //Getter
     public int get_id()
