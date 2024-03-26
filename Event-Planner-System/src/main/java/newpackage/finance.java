@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.JScrollPane;
 public class finance
 {
-  
+
    public void event_report(int event_id)
     {
         String query= "select \n" +

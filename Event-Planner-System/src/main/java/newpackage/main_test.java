@@ -15,6 +15,8 @@ public class main_test
         
     public static void main(String[] args)
     {
+        NotificationService J = new NotificationService();
+        
          JOptionPane.showMessageDialog(null, "Start");       
         //Create Scanner Object
         Scanner scanner = new Scanner(System.in);
@@ -265,6 +267,7 @@ public class main_test
                                     }
                                     else if(i_4th == 2)// Logout
                                     {
+                                        user.logout(user.user_id);
                                         user = new users();
                                         break;
                                     }
