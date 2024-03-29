@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class users 
 {
-    private int id;
+    public int id;
     private String user_name;
     private String first_name;
     private String last_name;
@@ -80,7 +80,7 @@ public class users
             pst1.setString(1,  String.valueOf(this.id));
             pst1.executeUpdate();
             // close DB conniction
-//            DatabaseConnection.closeConnection();
+            DatabaseConnection.closeConnection();
             
             
             System.out.println("Create account succeeded");
@@ -98,8 +98,8 @@ public class users
       String query = "select * from users where user_name = '"+User_name+"' and password = '"+Password+"'";        
 
       try (Connection con = DatabaseConnection.getConnection();)
-      {
-          Statement stmt = con.createStatement();
+      { 
+         Statement stmt = con.createStatement();
           ResultSet rs= stmt.executeQuery(query);
           if (rs.next())
           {
@@ -142,33 +142,39 @@ public class users
                else
                {
                    System.out.println("Invalid user name password and type"); 
+                   this.id = -1;
                }
           }
           else
           {
               System.out.println("Invalid user name or password"); 
+              this.id = -1;
           }
           query = "UPDATE users SET token = '1' where users.id = "+this.id+";";
           PreparedStatement pst = con.prepareStatement(query);
           pst.executeUpdate();
- 
+          DatabaseConnection.closeConnection();
       } catch (SQLException ex) {
-          System.out.println(ex); 
+          System.out.println(ex);
+          this.id = -1;
+          return this.id;
       }
       return this.id;
     }
     
-    public void logout(int user_id)
+    public int logout(int user_id)
     {
-        String query = "UPDATE users SET token = '0' where users.id = "+this.id+";";
+        String query = "UPDATE users SET token = '0' where users.id = "+user_id+";";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement pst = con.prepareStatement(query))
         {
             pst.executeUpdate();
+            return 1;
         }
          catch (SQLException ex) {
             System.out.println(ex);
         }
+        return 0;
     }
     //Getter
     public int get_id()
@@ -331,3 +337,4 @@ public class users
                 "\n (7) image url:"+this.image;
     }
 }
+

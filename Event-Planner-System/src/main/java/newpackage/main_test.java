@@ -9,10 +9,7 @@ import javax.swing.JPanel;
 
 public class main_test 
 {
-     
-       
-        
-        
+    
     public static void main(String[] args)
     {
         NotificationService J = new NotificationService();
@@ -267,7 +264,7 @@ public class main_test
                                     }
                                     else if(i_4th == 2)// Logout
                                     {
-                                        user.logout(user.user_id);
+                                        user.logout(user.get_id());
                                         user = new users();
                                         break;
                                     }
