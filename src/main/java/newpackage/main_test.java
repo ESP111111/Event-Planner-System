@@ -98,6 +98,11 @@ public class main_test
                                                             + "(6) update image url\n"
                                                             + "(7) go back");
                                                     int i_6th = scanner.nextInt();
+                                                     if(i_6th == 7)
+                                                        {
+                                                            break;
+                                                        }
+                                                     else {
                                                     switch(i_6th)
                                                     {
                                                         case 1:
@@ -190,21 +195,15 @@ public class main_test
                                                             }
                                                             break;
                                                         }
-                                                        case 7:
-                                                        {
-                                                            break;
-                                                        }
+                                                        
                                                         default:
                                                         {
                                                              System.out.println("Incorrect input , please try again.");
                                                         }
                                                     }
-                                                    if(i_6th == 7)
-                                                        {
-                                                            break;
-                                                        }
+                                                    
                                                 }
-
+                                                        }
                                             }
                                             else if(i_5th == 2)//Next options
                                             {
