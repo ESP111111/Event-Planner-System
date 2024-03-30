@@ -18,7 +18,7 @@ public class NotificationService {
             if (SystemTray.isSupported()) {
                 SystemTray tray = SystemTray.getSystemTray();
 
-                // Load your logo image here
+                
                 Image image = Toolkit.getDefaultToolkit().createImage("EP.png");
 
                 TrayIcon trayIcon = new TrayIcon(image, "Notification Demo");
@@ -27,13 +27,20 @@ public class NotificationService {
 
                 while (true) {
                     updateAndShowNotifications(trayIcon);
-                    Thread.sleep(30000); // Check every 30 seconds
+                    Thread.sleep(30000); 
+                    int TIME = 0;
+                    TIME++;
+                    if(TIME == 60)
+                    {
+                        break;
+                    }
+                    
                 }
             } else {
                 System.err.println("System tray not supported!");
             }
-        } catch (AWTException | SQLException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -59,10 +66,13 @@ public class NotificationService {
 "    -- Events starting right now\n" +
 "    TIMESTAMP(event_date, event_time) = NOW()\n" +
 "  );";
-
-        Connection conn = DatabaseConnection.getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        Connection conn = null;
+        Statement stmt  = null;      
+        ResultSet rs    = null;
+        try{
+         conn = DatabaseConnection.getConnection();
+         stmt = conn.createStatement();
+         rs = stmt.executeQuery(query);
 
         while (rs.next()) {
             int id = rs.getInt(2);
@@ -76,6 +86,35 @@ public class NotificationService {
             }
             currentEvents.add(id);
         }
+        }catch(SQLException e)
+        {
+            System.out.println(e);
+        }
+        finally {
+        // Close resources in the finally block
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement: " + e.getMessage());
+            }
+        }
+        }
+        
 
         notifiedEvents.retainAll(currentEvents);
     }
