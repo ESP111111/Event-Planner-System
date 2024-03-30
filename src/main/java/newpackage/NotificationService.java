@@ -39,8 +39,9 @@ public class NotificationService {
             } else {
                 System.err.println("System tray not supported!");
             }
-        } catch (Exception e) {
+        } catch (AWTException | InterruptedException | SQLException e) {
             System.out.println(e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -89,7 +90,7 @@ public class NotificationService {
         }catch(SQLException e)
         {
             System.out.println(e);   
-            Thread.currentThread().interrupt();
+            
         }
         finally {
         // Close resources in the finally block
