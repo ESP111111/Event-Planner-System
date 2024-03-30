@@ -33,9 +33,16 @@ public class users
     public int sign_up(String User_name,String First_name,String Last_name,String Email ,String Password,String Image,int type )
     {
         String query = "INSERT INTO users (user_name, first_name, last_name, email, password, image) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(query))
+        Connection con  = null;
+        PreparedStatement pst = null;
+        Statement stmt = null;
+        PreparedStatement pst1 = null;
+        ResultSet rs = null;
+        try
         {
+             con = DatabaseConnection.getConnection();
+             pst = con.prepareStatement(query);
+        
             pst.setString(1, User_name);
             pst.setString(2, First_name);
             pst.setString(3, Last_name);
@@ -46,8 +53,8 @@ public class users
             pst.executeUpdate();
             // give new user id for to register this in user type                        
             query = "select max(id) from users;";
-            Statement stmt = con.createStatement();
-            ResultSet rs= stmt.executeQuery(query);
+            stmt = con.createStatement();
+            rs= stmt.executeQuery(query);
             if (rs.next())
             {
                 int maxId = rs.getInt(1);
@@ -76,7 +83,7 @@ public class users
                 }
             }
             query = "INSERT INTO "+type_table+" (user_id) VALUES (?)";
-            PreparedStatement pst1 = con.prepareStatement(query);
+            pst1 = con.prepareStatement(query);
             pst1.setString(1,  String.valueOf(this.id));
             pst1.executeUpdate();
             // close DB conniction
@@ -90,6 +97,37 @@ public class users
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+        finally {
+        // Close resources in the finally block
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement: " + e.getMessage());
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+    }
         return this.id;
     }
     public int login(String User_name , String Password)
