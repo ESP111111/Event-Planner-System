@@ -40,7 +40,7 @@ public class NotificationService {
                 System.err.println("System tray not supported!");
             }
         } catch (Exception e) {
-            throw e;
+            System.out.println(e);
         }
     }
 
@@ -88,7 +88,8 @@ public class NotificationService {
         }
         }catch(SQLException e)
         {
-            System.out.println(e);
+            System.out.println(e);   
+            Thread.currentThread().interrupt();
         }
         finally {
         // Close resources in the finally block
