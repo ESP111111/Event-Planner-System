@@ -2,6 +2,7 @@
 package newpackage;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,14 +23,19 @@ public class Visitor
                 left join organizer on organizer.id = event_info.organizer_id
                 left join users on users.id = organizer.user_id
                 
-                where visitor.id = """+ String.valueOf(user_id) +"\n" +
+                where visitor.id = ? \n""" +
                 "ORDER BY event_info.event_date , event_info.event_time\n" +
                 ";" ;
+        
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt1 = null;
          try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-
+            conn = DatabaseConnection.getConnection();
+            pstmt1 = conn.prepareStatement(query);
+            pstmt1.setInt(1, user_id);
+            rs = pstmt1.executeQuery();
+            
             while (rs.next()) {
                 String event_name = rs.getString(1);
                 String event_date = rs.getString(2);
@@ -42,6 +48,31 @@ public class Visitor
         } catch (SQLException e) {
             System.out.println(e);
         }
+         finally {
         
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pstmt1 != null) {
+            try {
+                pstmt1.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+         
+         }
     }
 }
