@@ -138,15 +138,26 @@ public class users
         return this.id;
     }
     
-    public int login(String User_name , String Password)
+     public int login(String User_name , String Password)
     {
       
       String query = "select * from users where user_name = '"+User_name+"' and password = '"+Password+"'";        
-
-      try (Connection con = DatabaseConnection.getConnection();)
+ 
+      Connection con = null;
+      Statement stmt = null;
+      ResultSet rs = null;
+      Statement stmt1 = null;
+      ResultSet rs1= null;
+      Statement stmt2 = null;
+      ResultSet rs2= null;
+      Statement stmt3 = null;
+      ResultSet rs3= null;
+      PreparedStatement pst = null;
+      try 
       { 
-         Statement stmt = con.createStatement();
-          ResultSet rs= stmt.executeQuery(query);
+          con = DatabaseConnection.getConnection();
+          stmt = con.createStatement();
+          rs= stmt.executeQuery(query);
           if (rs.next())
           {
               int maxId = rs.getInt(1);
@@ -161,12 +172,12 @@ public class users
               String vendor_query = "select id from vendor where user_id ="+this.id;
               String organizer_query = "select id from organizer where user_id ="+this.id;
               String visitor_query = "select id from visitor where user_id ="+this.id; 
-               Statement stmt1 = con.createStatement();
-              ResultSet rs1= stmt1.executeQuery(vendor_query);
-               Statement stmt2 = con.createStatement();
-              ResultSet rs2= stmt2.executeQuery(organizer_query);
-               Statement stmt3 = con.createStatement();
-              ResultSet rs3= stmt3.executeQuery(visitor_query);
+              stmt1 = con.createStatement();
+              rs1= stmt1.executeQuery(vendor_query);
+              stmt2 = con.createStatement();
+              rs2= stmt2.executeQuery(organizer_query);
+              stmt3 = con.createStatement();
+              rs3= stmt3.executeQuery(visitor_query);
              
                if (rs1.next())
                {
@@ -197,7 +208,7 @@ public class users
               this.id = -1;
           }
           query = "UPDATE users SET token = '1' where users.id = "+this.id+";";
-          PreparedStatement pst = con.prepareStatement(query);
+          pst = con.prepareStatement(query);
           pst.executeUpdate();
           DatabaseConnection.closeConnection();
       } catch (SQLException ex) {
@@ -205,7 +216,82 @@ public class users
           this.id = -1;
           return this.id;
       }
+      finally {
+        // Close resources in the finally block
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement: " + e.getMessage());
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        if (stmt1 != null) {
+            try {
+                stmt1.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        if (stmt2 != null) {
+            try {
+                stmt2.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        if (stmt3 != null) {
+            try {
+                stmt3.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        if (rs1 != null) {
+            try {
+                rs1.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        if (rs2 != null) {
+            try {
+                rs2.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        if (rs3 != null) {
+            try {
+                rs3.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+        
+    }
       return this.id;
+      
     }
     
     public int logout(int user_id)
