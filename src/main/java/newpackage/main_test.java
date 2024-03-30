@@ -21,9 +21,13 @@ public class main_test
         while(true)//1st loop
         {
             System.out.println("{Welcome to Event Planner System}");
-            System.out.println("Go to :\n(1) Login\n(2) Signup");
+            System.out.println("Go to :\n(1) Login\n(2) Signup\n(3) Exit");
             int i_1st = scanner.nextInt();
             users user = new users();
+            if(i_1st == 3)
+            {
+                break;
+            }
             if(i_1st == 1)// Login   
             {
                 while(true)//login loop
