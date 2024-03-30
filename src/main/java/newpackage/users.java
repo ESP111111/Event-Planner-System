@@ -138,85 +138,76 @@ public class users
         return this.id;
     }
     
-     public int login(String User_name , String Password)
-    {
-      
-      String query = "select * from users where user_name = '"+User_name+"' and password = '"+Password+"'";        
- 
-      Connection con = null;
-      Statement stmt = null;
-      ResultSet rs = null;
-      Statement stmt1 = null;
-      ResultSet rs1= null;
-      Statement stmt2 = null;
-      ResultSet rs2= null;
-      Statement stmt3 = null;
-      ResultSet rs3= null;
-      PreparedStatement pst = null;
-      try 
-      { 
-          con = DatabaseConnection.getConnection();
-          stmt = con.createStatement();
-          rs= stmt.executeQuery(query);
-          if (rs.next())
-          {
-              int maxId = rs.getInt(1);
-              this.id = maxId;
-              this.user_name = rs.getString(2);
-              this.first_name = rs.getString(3);
-              this.last_name = rs.getString(4);
-              this.email = rs.getString(5);
-              this.password = rs.getString(6);
-              this.image = rs.getString(7);
-              
-              String vendor_query = "select id from vendor where user_id ="+this.id;
-              String organizer_query = "select id from organizer where user_id ="+this.id;
-              String visitor_query = "select id from visitor where user_id ="+this.id; 
-              stmt1 = con.createStatement();
-              rs1= stmt1.executeQuery(vendor_query);
-              stmt2 = con.createStatement();
-              rs2= stmt2.executeQuery(organizer_query);
-              stmt3 = con.createStatement();
-              rs3= stmt3.executeQuery(visitor_query);
-             
-               if (rs1.next())
-               {
-                   this.type = 1;
-                   this.user_id = rs1.getInt(1);
-               }
-               else if (rs2.next())
-               {
-                   this.type = 2;
-                   this.user_id = rs2.getInt(1);
+  public int login(String User_name, String Password) {
+        String query = "SELECT * FROM users WHERE user_name = ? AND password = ?";
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt1 = null;
+        PreparedStatement pstmt2 = null;
+        PreparedStatement pstmt3 = null;
+        PreparedStatement pstmt4 = null;        
+        PreparedStatement pstmt5 = null;
 
-               }
-               else if (rs3.next())
-               {
-                   this.type = 3;
-                   this.user_id = rs3.getInt(1);
+        try {
+            con = DatabaseConnection.getConnection();
+            pstmt1 = con.prepareStatement(query);
+            pstmt1.setString(1, User_name);
+            pstmt1.setString(2, Password);
+            rs = pstmt1.executeQuery();
+            
 
-               }
-               else
-               {
-                   System.out.println("Invalid user name password and type"); 
-                   this.id = -1;
-               }
-          }
-          else
-          {
-              System.out.println("Invalid user name or password"); 
-              this.id = -1;
-          }
-          query = "UPDATE users SET token = '1' where users.id = "+this.id+";";
-          pst = con.prepareStatement(query);
-          pst.executeUpdate();
-          DatabaseConnection.closeConnection();
-      } catch (SQLException ex) {
-          System.out.println(ex);
-          this.id = -1;
-          return this.id;
-      }
-      finally {
+            if (rs.next()) {
+                this.id = rs.getInt("id");
+                this.user_name = rs.getString("user_name");
+                this.first_name = rs.getString("first_name");
+                this.last_name = rs.getString("last_name");
+                this.email = rs.getString("email");
+                this.password = rs.getString("password");
+                this.image = rs.getString("image");
+
+                String vendorQuery = "SELECT id FROM vendor WHERE user_id = ?";
+                String organizerQuery = "SELECT id FROM organizer WHERE user_id = ?";
+                String visitorQuery = "SELECT id FROM visitor WHERE user_id = ?";
+
+                try {
+                    pstmt2 = con.prepareStatement(vendorQuery);
+                    pstmt3 = con.prepareStatement(organizerQuery);
+                    pstmt4 = con.prepareStatement(visitorQuery);
+                    pstmt2.setInt(1, this.id);
+                    pstmt3.setInt(1, this.id);
+                    pstmt4.setInt(1, this.id);
+                    ResultSet rs2 = pstmt2.executeQuery();
+                    ResultSet rs3 = pstmt3.executeQuery();
+                    ResultSet rs4 = pstmt4.executeQuery();
+                    if (rs2.next()) {
+                        this.type = 1;
+                    } else if (rs3.next()) {
+                        this.type = 2;
+                    } else if (rs4.next()) {
+                        this.type = 3;
+                    } else {
+                        System.out.println("Invalid user name, password, or type");
+                        this.id = -1;
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex);
+                }
+
+            } else {
+                System.out.println("Invalid user name or password");
+                this.id = -1;
+            }
+
+            query = "UPDATE users SET token = '1' WHERE id = ?";
+            pstmt5 = con.prepareStatement(query);
+            pstmt5.setInt(1, this.id);
+            pstmt5.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            this.id = -1;
+        } 
+          finally {
         // Close resources in the finally block
         if (rs != null) {
             try {
@@ -225,16 +216,23 @@ public class users
                 System.out.println("Error closing ResultSet: " + e.getMessage());
             }
         }
-        if (stmt != null) {
+        if (pstmt1 != null) {
             try {
-                stmt.close();
+                pstmt1.close();
             } catch (SQLException e) {
-                System.out.println("Error closing Statement: " + e.getMessage());
+                System.out.println("Error closing ResultSet: " + e.getMessage());
             }
         }
-        if (pst != null) {
+        if (pstmt5 != null) {
             try {
-                pst.close();
+                pstmt5.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pstmt2 != null) {
+            try {
+                pstmt2.close();
             } catch (SQLException e) {
                 System.out.println("Error closing PreparedStatement: " + e.getMessage());
             }
@@ -246,53 +244,25 @@ public class users
                 System.out.println("Error closing Connection: " + e.getMessage());
             }
         }
-        if (stmt1 != null) {
+        if (pstmt3 != null) {
             try {
-                stmt1.close();
+                pstmt3.close();
             } catch (SQLException e) {
                 System.out.println("Error closing Connection: " + e.getMessage());
             }
         }
-        if (stmt2 != null) {
+        if (pstmt4 != null) {
             try {
-                stmt2.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing Connection: " + e.getMessage());
-            }
-        }
-        if (stmt3 != null) {
-            try {
-                stmt3.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing Connection: " + e.getMessage());
-            }
-        }
-        if (rs1 != null) {
-            try {
-                rs1.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing Connection: " + e.getMessage());
-            }
-        }
-        if (rs2 != null) {
-            try {
-                rs2.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing Connection: " + e.getMessage());
-            }
-        }
-        if (rs3 != null) {
-            try {
-                rs3.close();
+                pstmt4.close();
             } catch (SQLException e) {
                 System.out.println("Error closing Connection: " + e.getMessage());
             }
         }
         
     }
-      return this.id;
-      
+        return this.id;
     }
+
     
     public int logout(int user_id)
     {
