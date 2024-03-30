@@ -21,10 +21,34 @@ public class Events
                 String name = rs.getString("name");
                 System.out.println("ID: " + id + " | Name: " + name);
             }
-        stmt.close();   
+           
+        // Close resources in the finally block
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
+        }
+    
         } catch (SQLException e) {
             System.out.println(e);
         }
+        
     }
     
     public void insert_new_event(Event E) 
