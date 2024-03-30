@@ -137,13 +137,7 @@ public class finance
                 System.out.println("Error closing Statement: " + e.getMessage());
             }
         }
-        if (pst != null) {
-            try {
-                pst.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing PreparedStatement: " + e.getMessage());
-            }
-        }
+        
         }
     }
    
@@ -222,6 +216,8 @@ public class finance
          Connection conn = null;
         ResultSet rs  =null;
         PreparedStatement pst = null;
+        PreparedStatement pst1 = null;
+        PreparedStatement pst2 = null;
         int place_capacity = 0;
        
        String query2 = "";
@@ -271,9 +267,9 @@ public class finance
             + "</table></body></html>";
             }
             
-            pst = conn.prepareStatement(query1);
-            pst.setInt(1, event_id);
-            rs = pst.executeQuery();
+            pst1 = conn.prepareStatement(query1);
+            pst1.setInt(1, event_id);
+            rs = pst1.executeQuery();
   
             while (rs.next()) {
                 int no_persons = rs.getInt(1);
@@ -313,10 +309,10 @@ public class finance
 
             }
             
-            pst = conn.prepareStatement(query2);
-            pst.setInt(1, place_capacity);
-            pst.setFloat(2, (float)(place_capacity+(place_capacity*0.3)));
-            rs = pst.executeQuery();
+            pst2 = conn.prepareStatement(query2);
+            pst2.setInt(1, place_capacity);
+            pst2.setFloat(2, (float)(place_capacity+(place_capacity*0.3)));
+            rs = pst2.executeQuery();
             String htmlBuilder = "<html><body style='font-family: Arial, sans-serif;'>"
                     + "<h2 style='text-align: center; color: black;' >Nominated places</h2>"
                     + "<table style='width: 100%; border-collapse: collapse'>"
@@ -403,13 +399,21 @@ public class finance
                 System.out.println("Error closing Statement: " + e.getMessage());
             }
         }
-        if (pst != null) {
+        if (pst1 != null) {
             try {
-                pst.close();
+                pst1.close();
             } catch (SQLException e) {
                 System.out.println("Error closing PreparedStatement: " + e.getMessage());
             }
         }
+        if (pst2 != null) {
+            try {
+                pst2.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement: " + e.getMessage());
+            }
+        }
+        
         }
   }
    
