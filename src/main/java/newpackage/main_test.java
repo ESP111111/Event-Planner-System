@@ -79,9 +79,13 @@ public class main_test
                                         {
                                             System.out.println(user);
                                             System.out.println("Select your choise:");
-                                            System.out.println("(1) Update your profile.\n(2) Next options.");                        
+                                            System.out.println("(0) Go Back \n(1) Update your profile.\n(2) Next options.");                        
                                             int i_5th = scanner.nextInt();
-                                            if(i_5th == 1)//showing and apdate my profile
+                                            if(i_5th == 0)
+                                            {
+                                                break;
+                                            }
+                                            else if(i_5th == 1)//showing and apdate my profile
                                             {
                                                 while(true)
                                                 {
