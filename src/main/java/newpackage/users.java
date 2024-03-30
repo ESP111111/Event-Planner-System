@@ -145,7 +145,9 @@ public class users
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         PreparedStatement pstmt3 = null;
-        PreparedStatement pstmt4 = null;
+        PreparedStatement pstmt4 = null;        
+        PreparedStatement pstmt5 = null;
+
         try {
             con = DatabaseConnection.getConnection();
             pstmt1 = con.prepareStatement(query);
@@ -197,9 +199,9 @@ public class users
             }
 
             query = "UPDATE users SET token = '1' WHERE id = ?";
-            pstmt1 = con.prepareStatement(query);
-            pstmt1.setInt(1, this.id);
-            pstmt1.executeUpdate();
+            pstmt5 = con.prepareStatement(query);
+            pstmt5.setInt(1, this.id);
+            pstmt5.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -218,7 +220,14 @@ public class users
             try {
                 pstmt1.close();
             } catch (SQLException e) {
-                System.out.println("Error closing Statement: " + e.getMessage());
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pstmt5 != null) {
+            try {
+                pstmt5.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
             }
         }
         if (pstmt2 != null) {
@@ -253,6 +262,7 @@ public class users
     }
         return this.id;
     }
+
 
     
     public int logout(int user_id)
