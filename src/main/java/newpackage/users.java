@@ -170,6 +170,7 @@ public class users
                 String visitorQuery = "SELECT id FROM visitor WHERE user_id = ?";
 
                 try {
+                   
                     pstmt2 = con.prepareStatement(vendorQuery);
                     pstmt3 = con.prepareStatement(organizerQuery);
                     pstmt4 = con.prepareStatement(visitorQuery);
@@ -181,10 +182,14 @@ public class users
                     ResultSet rs4 = pstmt4.executeQuery();
                     if (rs2.next()) {
                         this.type = 1;
+                        this.user_id = rs2.getInt(1);
                     } else if (rs3.next()) {
                         this.type = 2;
+                        this.user_id = rs3.getInt(1);
                     } else if (rs4.next()) {
                         this.type = 3;
+                        this.user_id = rs4.getInt(1);
+
                     } else {
                         System.out.println("Invalid user name, password, or type");
                         this.id = -1;
@@ -275,7 +280,6 @@ public class users
             con = DatabaseConnection.getConnection();
             pst = con.prepareStatement(query);          
             pst.setInt(1, user_id);
-
             pst.executeUpdate();
             return 1;
         }

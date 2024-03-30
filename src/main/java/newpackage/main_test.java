@@ -417,6 +417,7 @@ public class main_test
     }
     public static void organizer(users user)
     {
+        
         while(true)
         {
             Scanner scanner = new Scanner(System.in);
