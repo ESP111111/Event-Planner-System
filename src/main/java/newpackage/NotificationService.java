@@ -40,7 +40,7 @@ public class NotificationService {
                 System.err.println("System tray not supported!");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            throw e;
         }
     }
 
