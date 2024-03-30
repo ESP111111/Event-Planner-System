@@ -30,7 +30,7 @@ public class users
         user_id = -1;
         type = -1;
     }        
-    public int sign_up(String User_name,String First_name,String Last_name,String Email ,String Password,String Image,int type )
+     public int sign_up(String User_name,String First_name,String Last_name,String Email ,String Password,String Image,int type )
     {
         String query = "INSERT INTO users (user_name, first_name, last_name, email, password, image) VALUES (?, ?, ?, ?, ?, ?)";
         Connection con  = null;
@@ -120,6 +120,13 @@ public class users
                 System.out.println("Error closing PreparedStatement: " + e.getMessage());
             }
         }
+        if (pst1 != null) {
+            try {
+                pst1.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement1: " + e.getMessage());
+            }
+        }
         if (con != null) {
             try {
                 con.close();
@@ -130,6 +137,7 @@ public class users
     }
         return this.id;
     }
+    
     public int login(String User_name , String Password)
     {
       
