@@ -263,13 +263,18 @@ public class users
         return this.id;
     }
 
-    
-    public int logout(int user_id)
+   public int logout(int user_id)
     {
-        String query = "UPDATE users SET token = '0' where users.id = "+user_id+";";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(query))
+        String query = "UPDATE users SET token = '0' where users.id = ? ;";
+        Connection con = null;
+        PreparedStatement pst = null;
+        try 
         {
+             
+            con = DatabaseConnection.getConnection();
+            pst = con.prepareStatement(query);          
+            pst.setInt(1, user_id);
+
             pst.executeUpdate();
             return 1;
         }
@@ -277,8 +282,9 @@ public class users
             System.out.println(ex);
         }
         return 0;
-    }
-    //Getter
+    } 
+    
+   
     public int get_id()
     {
         return this.id;
