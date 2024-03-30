@@ -11,10 +11,13 @@ public class Events
     public void print_categories()
     {
        String query = " select * from event_category";
+       Statement stmt = null;
+        Connection conn = null;
+        ResultSet rs = null;
        try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            conn = DatabaseConnection.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -22,7 +25,13 @@ public class Events
                 System.out.println("ID: " + id + " | Name: " + name);
             }
            
-        // Close resources in the finally block
+       
+    
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+       finally 
+       {
         if (rs != null) {
             try {
                 rs.close();
@@ -44,12 +53,10 @@ public class Events
                 System.out.println("Error closing Connection: " + e.getMessage());
             }
         }
-    
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    }
         
     }
+    
     
     public void insert_new_event(Event E) 
     {
