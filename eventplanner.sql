@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2024 at 02:18 AM
+-- Generation Time: Mar 30, 2024 at 01:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,10 +67,7 @@ CREATE TABLE `event_info` (
 --
 
 INSERT INTO `event_info` (`id`, `organizer_id`, `event_category_id`, `name`, `event_date`, `event_time`, `description`, `no_visitor`, `price_per_person`, `no_meals`, `meal_price`, `no_drinks`, `drink_price`) VALUES
-(1, 6, 1, 'Rawand birthday', '2024-03-06', '18:09:00', 'Welcome all.', 400, 10, 350, 15, 350, 3),
-(4, 4, 2, 'awww', '2024-03-06', '18:09:00', 'ssss', 500, 4, 700, 2, 900, 3),
-(5, 4, 1, 'aa', '2024-03-25', '04:08:15', 'sssaaww', 1, 2, 4, 3, 1, 5),
-(7, 7, 1, 'QQ', '2024-07-13', '15:30:00', 'eeeeee', 500, 0, 550, 0, 600, 0);
+(1, 6, 1, 'Rawand birthday', '2024-03-06', '18:09:00', 'Welcome all.', 400, 10, 350, 15, 350, 3);
 
 -- --------------------------------------------------------
 
@@ -84,18 +81,6 @@ CREATE TABLE `event_meta` (
   `link` varchar(1024) DEFAULT NULL,
   `type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `event_meta`
---
-
-INSERT INTO `event_meta` (`id`, `event_info_id`, `link`, `type`) VALUES
-(1, 4, 'aabbcc', 1),
-(2, 4, 'abcdefg', 2),
-(3, 5, 'qqwwee', 1),
-(4, 4, 'hhhh', 1),
-(5, 4, 'kkkkkkk', 1),
-(6, 7, 'dsgfhfggfaSFD', 1);
 
 -- --------------------------------------------------------
 
@@ -118,9 +103,6 @@ CREATE TABLE `event_place_order` (
 --
 
 INSERT INTO `event_place_order` (`id`, `event_info_id`, `place_id`, `start_date`, `end_date`, `start_time`, `end_time`) VALUES
-(1, 4, 3, '2024-03-19', '2024-03-19', '12:08:08', '22:08:08'),
-(2, 5, 3, '2024-03-21', '2024-03-23', '08:10:40', '02:11:40'),
-(3, 7, 3, '2024-03-19', '2024-03-23', '08:10:40', '02:11:40'),
 (4, 1, 3, '2024-03-18', '2024-03-18', '15:30:00', '23:00:00');
 
 -- --------------------------------------------------------
@@ -139,9 +121,32 @@ CREATE TABLE `organizer` (
 --
 
 INSERT INTO `organizer` (`id`, `user_id`) VALUES
-(4, 15),
 (6, 20),
-(7, 23);
+(8, 22),
+(42, 51),
+(76, 183),
+(77, 186),
+(78, 189),
+(79, 192),
+(80, 195),
+(81, 198),
+(82, 201),
+(83, 204),
+(84, 207),
+(85, 210),
+(86, 213),
+(87, 216),
+(88, 219),
+(89, 222),
+(90, 225),
+(91, 228),
+(92, 231),
+(93, 234),
+(94, 237),
+(95, 240),
+(96, 243),
+(97, 246),
+(98, 249);
 
 -- --------------------------------------------------------
 
@@ -164,7 +169,9 @@ CREATE TABLE `place` (
 --
 
 INSERT INTO `place` (`id`, `vendor_id`, `name`, `location`, `capacity`, `Price_per_hour`, `rate`) VALUES
-(3, 7, 'Aya', 'Nablus', 600, 1500, 5);
+(3, 7, 'Aya', 'Nablus', 600, 1500, 5),
+(4, 7, 'Oday', 'Nablus', 700, 1800, 3),
+(5, 7, 'Rawand', 'Tulkarm', 3100, 1600, 2);
 
 -- --------------------------------------------------------
 
@@ -187,27 +194,96 @@ CREATE TABLE `ticket` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `user_name` varchar(255) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `image` varchar(1024) NOT NULL
+  `image` varchar(1024) DEFAULT NULL,
+  `token` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `first_name`, `last_name`, `email`, `password`, `image`) VALUES
-(1, 'rawand_aqel', 'Rawand', 'Aqel', 'rawand@gmail.com', 'rawand12345', 'q'),
-(5, 'RR1', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
-(14, 'vendor', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
-(15, 'ORGA', 'Ah', 'Mh', 'Ah@gmail.com', 'ahmad11111', 'asdfgh'),
-(16, 'Vis', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah'),
-(20, 'Moh_1', 'Mohammad', 'Ali', 'Moh@gmail.com', 'moh12345', '12qa'),
-(21, 'qq', 'ww', 'ss', 'ff@gmail.com', 'qq11111', 'ssssdddd'),
-(22, 'ttt', 'jj', 'ddd', 'qqq@gmail.com', 'aaaa1111', 'ggffssaa'),
-(23, 'Iiii', 'Aya', 'Aya', 'sfg@gmail.com', 'Aya11111', 'qwerwtewasd');
+INSERT INTO `users` (`id`, `user_name`, `first_name`, `last_name`, `email`, `password`, `image`, `token`) VALUES
+(1, 'Ahmad_11', 'Ahmad', 'Mohammad', 'Ahm1@example.com', 'Ahma12345', 'Asdsaddsac.jpg', 0),
+(5, 'RR1', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'ahmad12345', 'Ah', 0),
+(14, 'Aya', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'Aya11#*', 'Ah', 0),
+(16, 'Oday', 'Ahmad', 'mohammad', 'Ahmad@gmail.com', 'Oday777', 'Ah', 0),
+(20, 'Moh_1', 'Mohammad', 'Ali', 'Moh@gmail.com', 'moh12345', '12qa', 0),
+(21, 'qq', 'ww', 'ss', 'ff@gmail.com', 'qq11111', 'ssssdddd', 0),
+(22, 'ttt', 'jj', 'ddd', 'qqq@gmail.com', 'aaaa1111', 'ggffssaa', 0),
+(23, 'Iiii', 'Aya', 'Aya', 'sfg@gmail.com', 'Aya11111', 'qwerwtewasd', 0),
+(51, 'Rawand', 'Rawand', 'Aqel', 'Raw@gmail.com', 'Rawand123', 'sdfg', 0),
+(182, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(183, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(185, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(186, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(187, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(188, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(189, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(190, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(191, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(192, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(193, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(194, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(195, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(196, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(197, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(198, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(199, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(200, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(201, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(202, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(203, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(204, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(205, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(206, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(207, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(208, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(209, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(210, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(211, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(212, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(213, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(214, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(215, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(216, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(217, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(218, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(219, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(220, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(221, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(222, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(223, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(224, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(225, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(226, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(227, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(228, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(229, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(230, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(231, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(232, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(233, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(234, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(235, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(236, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(237, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(238, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(239, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(240, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(241, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(242, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(243, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(244, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(245, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(246, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(247, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL),
+(248, 'jdoe', 'John', 'Doe', 'jdoe@example.com', 'p@ssw0rd1', 'avatar.jpg', NULL),
+(249, 'asmith', 'Alice', 'Smith', 'asmith@example.com', 'p@ssword2', 'avatar2.jpg', NULL),
+(250, 'bwayne', 'Bruce', 'Wayne', 'bwayne@example.com', 'password3', 'avatar3.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -225,7 +301,31 @@ CREATE TABLE `vendor` (
 --
 
 INSERT INTO `vendor` (`id`, `user_id`) VALUES
-(7, 14);
+(33, 1),
+(7, 14),
+(50, 182),
+(51, 185),
+(52, 188),
+(53, 191),
+(54, 194),
+(55, 197),
+(56, 200),
+(57, 203),
+(58, 206),
+(59, 209),
+(60, 212),
+(61, 215),
+(62, 218),
+(63, 221),
+(64, 224),
+(65, 227),
+(66, 230),
+(67, 233),
+(68, 236),
+(69, 239),
+(70, 242),
+(71, 245),
+(72, 248);
 
 -- --------------------------------------------------------
 
@@ -245,7 +345,29 @@ CREATE TABLE `visitor` (
 INSERT INTO `visitor` (`id`, `user_id`) VALUES
 (1, 16),
 (3, 21),
-(5, 22);
+(5, 22),
+(40, 187),
+(41, 190),
+(42, 193),
+(43, 196),
+(44, 199),
+(45, 202),
+(46, 205),
+(47, 208),
+(48, 211),
+(49, 214),
+(50, 217),
+(51, 220),
+(52, 223),
+(53, 226),
+(54, 229),
+(55, 232),
+(56, 235),
+(57, 238),
+(58, 241),
+(59, 244),
+(60, 247),
+(61, 250);
 
 -- --------------------------------------------------------
 
@@ -260,17 +382,6 @@ CREATE TABLE `visits_order` (
   `no_persons` int(11) DEFAULT NULL,
   `VIP` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `visits_order`
---
-
-INSERT INTO `visits_order` (`id`, `visitor_id`, `event_info_id`, `no_persons`, `VIP`) VALUES
-(1, 1, 4, 5, 0),
-(2, 5, 5, 1, 1),
-(4, 3, 4, 2, 1),
-(5, 3, 7, 5, 0),
-(6, 1, 7, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -368,7 +479,7 @@ ALTER TABLE `event_category`
 -- AUTO_INCREMENT for table `event_info`
 --
 ALTER TABLE `event_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `event_meta`
@@ -386,13 +497,13 @@ ALTER TABLE `event_place_order`
 -- AUTO_INCREMENT for table `organizer`
 --
 ALTER TABLE `organizer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `place`
 --
 ALTER TABLE `place`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ticket`
@@ -404,19 +515,19 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `visitor`
 --
 ALTER TABLE `visitor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `visits_order`
