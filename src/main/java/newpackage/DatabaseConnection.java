@@ -48,7 +48,7 @@ public class DatabaseConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e);
+                logger.log(Level.SEVERE, "Error establishing database connection: {0}", e.getMessage());
             }
         }
     }
