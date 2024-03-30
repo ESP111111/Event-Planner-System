@@ -263,7 +263,8 @@ public class users
         return this.id;
     }
 
-   public int logout(int user_id)
+    
+    public int logout(int user_id)
     {
         String query = "UPDATE users SET token = '0' where users.id = ? ;";
         Connection con = null;
@@ -281,10 +282,27 @@ public class users
          catch (SQLException ex) {
             System.out.println(ex);
         }
+        finally {
+        // Close resources in the finally block
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        }
+        
         return 0;
-    } 
-    
-   
+    }
+    //Getter
     public int get_id()
     {
         return this.id;
@@ -445,4 +463,3 @@ public class users
                 "\n (7) image url:"+this.image;
     }
 }
-
