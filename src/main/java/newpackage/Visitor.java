@@ -13,19 +13,18 @@ public class Visitor
     {
         String query = 
                 """
-                select event_info.name , event_info.event_date , event_info.event_time,
-                concat(users.first_name , ' ' , users.last_name),
-                visits_order.no_persons ,
-                if(visits_order.VIP = 1 , "YES" , "NO") as "VIP"
-                from visitor
-                left join visits_order on visits_order.visitor_id = visitor.id 
-                left join event_info on event_info.id = visits_order.event_info_id
-                left join organizer on organizer.id = event_info.organizer_id
-                left join users on users.id = organizer.user_id
-                
-                where visitor.id = ? \n""" +
-                "ORDER BY event_info.event_date , event_info.event_time\n" +
-                ";" ;
+            SELECT event_info.name, event_info.event_date, event_info.event_time,
+                   CONCAT(users.first_name, ' ', users.last_name),
+                   visits_order.no_persons,
+                   IF(visits_order.VIP = 1, "YES", "NO") AS "VIP"
+            FROM visitor
+            LEFT JOIN visits_order ON visits_order.visitor_id = visitor.id 
+            LEFT JOIN event_info ON event_info.id = visits_order.event_info_id
+            LEFT JOIN organizer ON organizer.id = event_info.organizer_id
+            LEFT JOIN users ON users.id = organizer.user_id
+            WHERE visitor.id = ?
+            ORDER BY event_info.event_date, event_info.event_time;
+            """; 
         
         Connection conn = null;
         ResultSet rs = null;
@@ -33,7 +32,9 @@ public class Visitor
          try {
             conn = DatabaseConnection.getConnection();
             pstmt1 = conn.prepareStatement(query);
+            
             pstmt1.setInt(1, user_id);
+            
             rs = pstmt1.executeQuery();
             
             while (rs.next()) {
