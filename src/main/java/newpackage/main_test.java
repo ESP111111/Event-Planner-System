@@ -260,6 +260,7 @@ public class main_test
                                             {
                                                 System.out.println("Incorrect input , please try again.");
                                             }
+                                            break;
                                         }
                                     }
                                     else if(i_4th == 2)// Logout
