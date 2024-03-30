@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,12 +47,15 @@ public class finance
                 "from event_info \n" +
                 "left join event_place_order on event_place_order.event_info_id = event_info.id\n" +
                 "left join place on place.id = event_place_order.place_id\n" +
-                "where event_info.id = "+event_id+";";
-        
+                "where event_info.id = ? ;";
+        Connection conn = null;
+        ResultSet rs  =null;
+        PreparedStatement pst = null;
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            conn = DatabaseConnection.getConnection();
+            pst = conn.prepareStatement(query);
+            pst.setInt(1, event_id);
+            rs = pst.executeQuery();
   
            
             while (rs.next()) {
@@ -72,7 +76,7 @@ public class finance
                 float Lost_money = hours_total;
                 float total = Earned_money - Lost_money;
                 
-            // Create an HTML table for the finance report
+            
           String reportHtml = "<html><body style='font-family: Arial, sans-serif;'>"
             + "<h1 style='text-align: center; color: blue;'>Finance Report</h1>"
             + "<table style='width: 100%; border-collapse: collapse;'>"
@@ -89,18 +93,18 @@ public class finance
        JLabel reportLabel = new JLabel(reportHtml);
         reportLabel.setPreferredSize(new Dimension(280, 300)); // Set the preferred size
         
-        // ScrollPane for larger content
+        
         JScrollPane scrollPane = new JScrollPane(reportLabel);
         scrollPane.setPreferredSize(new Dimension(280, 300));
 
-        // OptionPane configuration
+       
         JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
         
-        // Display in a dialog
+       
         JDialog dialog = optionPane.createDialog(null, "Finance Report");
         dialog.setVisible(true);
 
-        // After the dialog is closed, save the content to an image
+        
         BufferedImage image = new BufferedImage(scrollPane.getViewport().getWidth(), 
                                                 scrollPane.getViewport().getHeight(), 
                                                 BufferedImage.TYPE_INT_ARGB);
@@ -109,14 +113,37 @@ public class finance
         g2d.dispose();
 
         try {
-            // Save as PNG
+            
             ImageIO.write(image, "png", new File("FinanceReport.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
             }
         } catch (SQLException e) {
             System.out.println(e);
+        }
+        finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement: " + e.getMessage());
+            }
+        }
         }
     }
    
@@ -148,7 +175,7 @@ public class finance
                + "from event_info \n" +
                 "left join event_place_order on event_place_order.event_info_id = event_info.id\n" +
                 "left join place on place.id = event_place_order.place_id\n" +
-                "where event_info.id = "+event_id+";";
+                "where event_info.id = ? ;";
        
        String query1 = "SELECT\n" +
 "    CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS \"no_visitors\",\n" +
@@ -191,18 +218,21 @@ public class finance
 "FROM event_info\n" +
 "LEFT JOIN event_place_order ON event_place_order.event_info_id = event_info.id\n" +
 "LEFT JOIN place ON place.id = event_place_order.place_id\n" +
-"WHERE event_info.id = "+event_id+";";
-        
-       
+"WHERE event_info.id = ? ;";
+         Connection conn = null;
+        ResultSet rs  =null;
+        PreparedStatement pst = null;
+        int place_capacity = 0;
        
        String query2 = "";
        String reportHtml = null;
        String reportHtml1 = null;
-
+       
         try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            conn = DatabaseConnection.getConnection();
+            pst = conn.prepareStatement(query);
+            pst.setInt(1, event_id);
+            rs = pst.executeQuery();
   
            
             while (rs.next()) {
@@ -218,7 +248,7 @@ public class finance
                 int no_hours = rs.getInt(10);
                 float hour_price = rs.getFloat(11);
                 float hours_total = rs.getFloat(12);
-                int place_capacity = rs.getInt(13);
+                place_capacity = rs.getInt(13);
                 int no_visitors = rs.getInt(14);
                 float Earned_money = persons_total + meals_total + drinks_total ;
                 float Lost_money = hours_total;
@@ -241,7 +271,9 @@ public class finance
             + "</table></body></html>";
             }
             
-              rs = stmt.executeQuery(query1);
+            pst = conn.prepareStatement(query1);
+            pst.setInt(1, event_id);
+            rs = pst.executeQuery();
   
             while (rs.next()) {
                 int no_persons = rs.getInt(1);
@@ -256,13 +288,13 @@ public class finance
                 int no_hours = rs.getInt(10);
                 float hour_price = rs.getFloat(11);
                 float hours_total = rs.getFloat(12);
-                int place_capacity = rs.getInt(13);
+                place_capacity = rs.getInt(13);
                 int no_visitors = rs.getInt(14);
                 float Earned_money = persons_total + meals_total + drinks_total ;
                 float Lost_money = hours_total;
                 float total = Earned_money - Lost_money;
-                query2 = "select * from place where place.capacity BETWEEN '"+place_capacity+"' and '"+(place_capacity+(place_capacity*0.3))+"'\n" +
-                "ORDER BY place.capacity;";
+                query2 = "select * from place where place.capacity BETWEEN ? and ? ORDER BY place.capacity;";
+                
             // Create an HTML table for the finance report
           reportHtml1 = "<html><body style='font-family: Arial, sans-serif;'>"
             + "<h2 style='text-align: center; color: black;'>Forcasting & emhancment </h2>"
@@ -281,7 +313,10 @@ public class finance
 
             }
             
-            rs = stmt.executeQuery(query2);
+            pst = conn.prepareStatement(query2);
+            pst.setInt(1, place_capacity);
+            pst.setFloat(2, (float)(place_capacity+(place_capacity*0.3)));
+            rs = pst.executeQuery();
             String htmlBuilder = "<html><body style='font-family: Arial, sans-serif;'>"
                     + "<h2 style='text-align: center; color: black;' >Nominated places</h2>"
                     + "<table style='width: 100%; border-collapse: collapse'>"
@@ -347,11 +382,34 @@ public class finance
             
             ImageIO.write(image, "png", new File("ForcastingReport.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
             
         } catch (SQLException e) {
             System.out.println(e);
+        }
+        finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing PreparedStatement: " + e.getMessage());
+            }
+        }
         }
   }
    
