@@ -34,11 +34,16 @@ public class places
   
   public void print_all_places(int vendor_id)
   {
-        String query = "SELECT * FROM PLACE WHERE vendor_id = "+vendor_id+" ;";
+        String query = "SELECT * FROM PLACE WHERE vendor_id = ? ;";
+        Connection con  = null;
+        PreparedStatement pst = null;
+         ResultSet rs = null;
        try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            con = DatabaseConnection.getConnection();
+            pst = con.prepareStatement(query);
+            pst.setInt(1, vendor_id);
+           
+            rs = pst.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -52,13 +57,33 @@ public class places
         } catch (SQLException e) {
             System.out.println(e);
         }
+        finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+       }
   }
   
-  public void print_one_place(int place_id)
-          
-          
-        
-  {
+  public void print_one_place(int place_id)          
+{
      String query = "select \n" +
              "event_info.id,\n" +
              "place.name , \n" +
@@ -73,11 +98,15 @@ public class places
              "left join event_info on event_info.id = event_place_order.event_info_id\n" +
              "left join organizer on organizer.id = event_info.organizer_id\n" +
              "left join users on users.id = organizer.user_id\n" +
-             "where place.id = " + place_id + " ORDER BY  event_place_order.start_date, event_place_order.start_time  ;";
+             "where place.id = ? ORDER BY  event_place_order.start_date, event_place_order.start_time  ;";
+        Connection con  = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
      try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            con = DatabaseConnection.getConnection();
+            pst = con.prepareStatement(query);
+            pst.setInt(1, place_id);
+            rs = pst.executeQuery();
 
             while (rs.next()) {
                 int event_id = rs.getInt(1);
@@ -94,11 +123,33 @@ public class places
         } catch (SQLException e) {
             System.out.println(e);
         }
+     finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+       }
      
   } 
   
-  
-  // search code
+ // search code
   
   
       public void srch_byname(){
