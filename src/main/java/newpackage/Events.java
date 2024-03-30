@@ -61,9 +61,14 @@ public class Events
     public void insert_new_event(Event E) 
     {
         String query = "INSERT INTO `event_info` (`organizer_id`, `event_category_id`, `name`, `event_date`, `event_time`, `description`, `no_visitor`, `price_per_person`, `no_meals`, `meal_price`, `no_drinks`, `drink_price`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(query))
+        Connection con = null;
+        PreparedStatement pst = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try 
         {
+             con = DatabaseConnection.getConnection();
+              pst = con.prepareStatement(query);
             pst.setInt(1, E.organizer_id);
             pst.setInt(2, E.event_category_id);
             pst.setString(3, E.name);
@@ -80,8 +85,9 @@ public class Events
             pst.executeUpdate();
           
             query = "select max(id) from event_info;";
-            Statement stmt = con.createStatement();
-            ResultSet rs= stmt.executeQuery(query);
+            stmt = con.createStatement();
+            rs= stmt.executeQuery(query);
+            
             if (rs.next())
             {
                 int maxId = rs.getInt(1);
@@ -92,15 +98,50 @@ public class Events
         {
             System.out.println(ex);
         }
+         finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        }
     }
     
     public void print_org_events(int org_id)
     {
-          String query = "select id , name , event_date , event_time from event_info where organizer_id = "+org_id+" order by event_date , event_time; ";
-       try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+          String query = "select id , name , event_date , event_time from event_info where organizer_id = ? order by event_date , event_time; ";
+          Connection conn = null;
+          PreparedStatement pst = null;
+          ResultSet rs = null;
+          try 
+          {
+             conn = DatabaseConnection.getConnection();
+             pst = conn.prepareStatement(query);
+             pst.setInt(1 , org_id);
+             rs= pst.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -112,6 +153,29 @@ public class Events
         } catch (SQLException e) {
             System.out.println(e);
         }
+          finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+        }
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+        }
+          }
     }
     
     public void get_one_event(int event_id) 
