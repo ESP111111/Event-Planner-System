@@ -15,7 +15,7 @@ public class DatabaseConnection {
     
     private static Connection connection = null;
     private static final Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
-    private static final String Er = "Error establishing database connection: {0}";
+    private static final String EXP = "Error establishing database connection: {0}";
     private DatabaseConnection()
     {
     }
@@ -36,9 +36,9 @@ public class DatabaseConnection {
         }
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, Er, e.getMessage());
+            logger.log(Level.SEVERE, EXP, e.getMessage());
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, Er, ex.getMessage());
+            logger.log(Level.SEVERE, EXP, ex.getMessage());
         }
     return connection;
     }
@@ -48,7 +48,7 @@ public class DatabaseConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.log(Level.SEVERE, Er, e.getMessage());
+                logger.log(Level.SEVERE, EXP, e.getMessage());
             }
         }
     }
