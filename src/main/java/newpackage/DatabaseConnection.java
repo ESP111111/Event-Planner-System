@@ -37,7 +37,7 @@ public class DatabaseConnection {
         }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         } catch (IOException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -49,7 +49,7 @@ public class DatabaseConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
         }
     }
