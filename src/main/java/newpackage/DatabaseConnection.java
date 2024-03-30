@@ -13,10 +13,9 @@ import java.util.logging.Logger;
 public class DatabaseConnection {
 
     
-    private static final String URL = "jdbc:mysql://localhost:3306/eventplanner";
-    private static final String USER = "root";
     private static Connection connection = null;
-    
+    private static final Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
+
     private DatabaseConnection()
     {
     }
@@ -37,9 +36,9 @@ public class DatabaseConnection {
         }
 
         } catch (SQLException e) {
-            System.out.println(e);
+            logger.log(Level.SEVERE, "Error establishing database connection: {0}", e.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Error establishing database connection: {0}", ex.getMessage());
         }
     return connection;
     }
