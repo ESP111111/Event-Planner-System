@@ -21,6 +21,7 @@ public class Events
                 String name = rs.getString("name");
                 System.out.println("ID: " + id + " | Name: " + name);
             }
+        stmt.close();   
         } catch (SQLException e) {
             System.out.println(e);
         }
