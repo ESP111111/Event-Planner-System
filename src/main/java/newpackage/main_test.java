@@ -15,6 +15,7 @@ public class main_test
         
         while(true)//1st loop
         {
+            System.out.println("--------------");
             System.out.println("{Welcome to Event Planner System}");
             System.out.println("Go to :\n(1) Login\n(2) Signup\n(3) Exit");
             int i_1st = scanner.nextInt();
