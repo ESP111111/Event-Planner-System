@@ -79,7 +79,7 @@
                 <configuration>
 
                     <excludes>
-                        <exclude>**car_accessories/MainClass.class</exclude>
+                        <exclude>**newpackage/main_test.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
