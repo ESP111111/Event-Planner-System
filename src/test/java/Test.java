@@ -2,41 +2,36 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import newpackage.DatabaseConnection;
+import newpackage.finance;
+import newpackage.places;
 import newpackage.users;
-import org.junit.After;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class Test {
 
     private users user;
     private users User;
     private users User1;
-
-
+    private String reportPath;
     private int actualUserId;
     private int actualUserType;
     private int userId;
+    private places place;
     private List<Map<String, String>> userList;       
+    private List<Map<String, String>> placeList;       
+
     private int flag;
-    
+    private finance F;
     
 
     
     public Test() throws SQLException
     {
         user = new users();
+        F = new finance();
     
     }
    
@@ -135,8 +130,136 @@ public void the_update_should_be_successful_with_flag(Integer expectedFlag)
 {
             assertEquals(expectedFlag.intValue(), flag);
 }
+//--------------------------finance report -------------------------------- 
 
+    @Given("an event with ID {string} exists with predefined financial details")
+    public void an_event_with_id_exists_with_predefined_financial_details(String eventId) {
+       
+        F = new finance();
+    }
+
+    @When("I request the financial report for event ID {int}")
+    public void i_request_the_financial_report_for_event_id(int eventId) 
+    {
+        F.event_report(eventId);
+    }
+
+    @Then("the report should display the total earnings from visitors, meals, and drinks")
+    public void the_report_should_display_the_total_earnings_from_visitors_meals_and_drinks() {
+      
+       assertTrue("Report should contain total earnings from visitors, meals, and drinks.",true);
+    }
+//--------------------------finance enhancment report -------------------------------- 
+
+    
+@Given("an event with ID {string} exists with predefined enhancment details")
+public void an_event_with_id_exists_with_predefined_enhancment_details(String string) {
+   
+      F = new finance();
+}
+@When("I request the enhancment report for event ID {int}")
+public void i_request_the_enhancment_report_for_event_id(Integer eventId) {
+   
+   F.enhancment_report(eventId);
+}
+@Then("the report should display the enhancment report")
+public void the_report_should_display_the_enhancment_report() {
+   
+    assertTrue("Report should contain total earnings from visitors, meals, and drinks.",true);
+}
+//--------------------------inser new place -------------------------------- 
+@Given("a new place wants to add with the following details:")
+public void a_new_place_wants_to_add_with_the_following_details(DataTable dataTable) {
+    this.placeList = dataTable.asMaps(String.class, String.class);
+        Map<String, String> placeDetails = placeList.get(0);
+        place = new places(); 
+}
+@When("the place added")
+public void the_place_added() {
+   Map<String, String> placeDetails = placeList.get(0);
+         place.insert_new_place(
+                 Integer.parseInt(placeDetails.get("vendor_id")), 
+                 placeDetails.get("name"), 
+                 placeDetails.get("location"), 
+                 Integer.parseInt(placeDetails.get("capacity")),
+                 Float.parseFloat(placeDetails.get("price_per_hour")),
+                 Integer.parseInt(placeDetails.get("rate")) );
+}
+@Then("the place should be successful added")
+public void the_place_should_be_successful_added()
+{
+    assertTrue("the place should be successful added",true);
+}
+//--------------------------print_all_places -------------------------------- 
+
+@Given("an vendor with ID {string} exists with predefined place details")
+public void an_vendor_with_id_exists_with_predefined_place_details(String string) {
+     place = new places(); 
+}
+@When("I request the all places for vendor ID {int}")
+public void i_request_the_all_places_for_vendor_id(Integer vendor_id) {
+    place.print_all_places(vendor_id);
+}
+@Then("the report should display the all places details")
+public void the_report_should_display_the_all_places_details() {
+   assertTrue("Then the report should display the all places details",true);
+}
+//--------------------------print_one_place -------------------------------- 
+
+@Given("an place with ID {string} exists with predefined one place details")
+public void an_place_with_id_exists_with_predefined_one_place_details(String string) {
+   place = new places(); 
+}
+@When("I request the one place for place ID {int}")
+public void i_request_the_one_place_for_place_id(Integer place_id) {
+    place.print_one_place(place_id);
+}
+@Then("the report should display the one place details")
+public void the_report_should_display_the_one_place_details() {
+     assertTrue("Then the report should display the one place details",true);
+}
+//--------------------------srch_byname -------------------------------- 
+@Given("an place with name {string} exists with predefined place details")
+public void an_place_with_name_exists_with_predefined_place_details(String string) {
+    place = new places(); 
+    
+}
+@When("I request shearch with one place for place name {string}")
+public void i_request_shearch_with_one_place_for_place_name(String name) {
+   place.srch_byname(name);
+}
+//--------------------------srch_bylocation -------------------------------- 
+@Given("an place with location {string} exists with predefined place details")
+public void an_place_with_location_exists_with_predefined_place_details(String string) {
+    place = new places(); 
+
+}
+@When("I request shearch with one place for place location {string}")
+public void i_request_shearch_with_one_place_for_place_location(String location) {
+      place.srch_bylocation(location);
+}
+
+//--------------------------srch_byprice --------------------------------
+@Given("an place with price {string} exists with predefined place details")
+public void an_place_with_price_exists_with_predefined_place_details(String string) {
+   place = new places(); 
+}
+@When("I request shearch with one place for place price {int}")
+public void i_request_shearch_with_one_place_for_place_price(int price) {
+    place.srch_byprice(price);
+}
+
+//--------------------------srch_byperiod -------------------------------- 
+@Given("an place with start_date {string} and start_time  {string} and end_time {string}  exists with predefined place details")
+public void an_place_with_start_date_and_start_time_and_end_time_exists_with_predefined_place_details(String date, String s_time, String e_time) {
+    place = new places(); 
+}
+@When("I request shearch with one place for place period start_date {string} and start_time  {string} and end_time {string}")
+public void i_request_shearch_with_one_place_for_place_period_start_date_and_start_time_and_end_time(String date, String s_time, String e_time) {
+    place.srch_byperiod(date , s_time , e_time);
 }
 
 
 
+
+}

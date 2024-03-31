@@ -642,25 +642,37 @@ public class main_test
                                      else if(oy4==1)
                                      {
                                          places od = new places()  ;
-                                         od.srch_byname();
+                                         System.out.println("Enter the name of the place to search: ");
+                                         String name = scanner.next();
+                                         od.srch_byname(name);
                                          System.out.print("\n");
                                      }
                                      else if (oy4==2)
                                      {
                                          places om=new places() ;
-                                         om.srch_bylocation();
+                                         System.out.println("Enter the location of the place to search: ");
+                                         String location = scanner.next();
+                                         om.srch_bylocation(location);
                                          System.out.print("\n");
                                      }
                                      else if(oy4==3)
                                      {
                                          places os =new places() ;
-                                         os.srch_byprice();
+                                         System.out.println("Enter the maximum hourly price of the place to search: ");
+                                         float price = scanner.nextFloat();
+                                         os.srch_byprice(price);
                                          System.out.print("\n");
                                      }
                                      else if(oy4==4)
                                      {
                                          places ov =new places() ;
-                                         ov.srch_byperiod();
+                                         System.out.println("Enter start date (YYYY-MM-DD): ");
+                                         String startDate = scanner.next();
+                                         System.out.println("Enter start time (HH:MM:SS): ");
+                                         String startTime = scanner.next();
+                                         System.out.println("Enter end time (HH:MM:SS): ");
+                                         String endTime = scanner.next();
+                                         ov.srch_byperiod(startDate, startTime, endTime);
                                          System.out.print("\n");
                                      }
                                  }
