@@ -60,6 +60,7 @@ public class Events
     
     public void insert_new_event(Event E) 
     {
+      
         String query = "INSERT INTO `event_info` (`organizer_id`, `event_category_id`, `name`, `event_date`, `event_time`, `description`, `no_visitor`, `price_per_person`, `no_meals`, `meal_price`, `no_drinks`, `drink_price`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
         Connection con = null;
         PreparedStatement pst = null;
