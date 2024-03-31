@@ -1,18 +1,13 @@
 package newpackage;
-
-import java.awt.Color;
 import java.util.Scanner;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class main_test 
 {
     
     public static void main(String[] args)
     {
-        NotificationService J = new NotificationService();
+       
         
          JOptionPane.showMessageDialog(null, "Start");       
         //Create Scanner Object
@@ -619,7 +614,7 @@ public class main_test
                                 String end_date = scanner.next();
                                 System.out.println("Enter start time :");
                                 String start_time = scanner.next();
-                                System.out.println("Enter end date :");
+                                System.out.println("Enter end time :");
                                 String end_time = scanner.next();
 
                                 Es.order_to_place(place_id, i_2ed , start_date ,end_date ,start_time ,end_time );
