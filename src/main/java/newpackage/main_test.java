@@ -1,22 +1,27 @@
 package newpackage;
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class main_test 
 {
-    
+     private static final Logger logger = Logger.getLogger(main_test.class.getName());
     public static void main(String[] args)
     {
-       
+       ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new SimpleFormatter());
+
+        logger.addHandler(handler);
+        logger.setUseParentHandlers(false);
         
-         JOptionPane.showMessageDialog(null, "Start");       
-        //Create Scanner Object
+        JOptionPane.showMessageDialog(null, "Start");       
         Scanner scanner = new Scanner(System.in);
         
         while(true)//1st loop
         {
-            System.out.println("{Welcome to Event Planner System}");
-            System.out.println("Go to :\n(1) Login\n(2) Signup\n(3) Exit");
+            logger.info("{Welcome to Event Planner System}");
+            logger.info("Go to :\n(1) Login\n(2) Signup\n(3) Exit");
             int i_1st = scanner.nextInt();
             users user = new users();
             if(i_1st == 3)
@@ -27,17 +32,17 @@ public class main_test
             {
                 while(true)//login loop
                 {
-                    System.out.println("{LOGIN}");
-                    System.out.println("(1)Enter your credentials:");                 
-                    System.out.println("(2)Go back to main page");                   
+                    logger.info("{LOGIN}");
+                    logger.info("(1)Enter your credentials:");                 
+                    logger.info("(2)Go back to main page");                   
                     int i_2ed = scanner.nextInt();
                     if(i_2ed == 1)//enter your creds
                     {
                         while(true)
                         {
-                            System.out.println("User Name:");
+                            logger.info("User Name:");
                             String user_name = scanner.next();
-                            System.out.println("Password:");
+                            logger.info("Password:");
                             String password = scanner.next();
                             int user_id = user.login(user_name, password);
                             if(user_id != -1)//Now login succeeded 
@@ -64,21 +69,21 @@ public class main_test
                                         }
                                         default:
                                         {
-                                            System.out.println("incorrect user type , contact us to solve your problem.");
+                                            logger.info("incorrect user type , contact us to solve your problem.");
                                             user =new users();//clear this user login data 
                                             break;//Logout
                                         }
                                     }
-                                    System.out.println("Login succeeded , you are "+user_type);
-                                    System.out.println("(1) Keep login and complete .\n(2) Logout");
+                                    logger.info("Login succeeded , you are "+user_type);
+                                    logger.info("(1) Keep login and complete .\n(2) Logout");
                                     int i_4th = scanner.nextInt();
                                     if(i_4th == 1)//Complete login
                                     {
                                         while(true)//Login controller
                                         {
                                             System.out.println(user);
-                                            System.out.println("Select your choise:");
-                                            System.out.println("(0) Go Back \n(1) Update your profile.\n(2) Next options.");                        
+                                            logger.info("Select your choise:");
+                                            logger.info("(0) Go Back \n(1) Update your profile.\n(2) Next options.");                        
                                             int i_5th = scanner.nextInt();
                                             if(i_5th == 0)
                                             {
@@ -88,8 +93,8 @@ public class main_test
                                             {
                                                 while(true)
                                                 {
-                                                    System.out.println("Choose the option you want to modify:");
-                                                    System.out.println("(1) update user name \n"
+                                                    logger.info("Choose the option you want to modify:");
+                                                    logger.info("(1) update user name \n"
                                                             + "(2) update first name \n"
                                                             + "(3) update last name \n"
                                                             + "(4) update email \n"
@@ -106,98 +111,98 @@ public class main_test
                                                     {
                                                         case 1:
                                                         {
-                                                            System.out.println("Enter new user name :");
+                                                            logger.info("Enter new user name :");
                                                             String new_user_name = scanner.next();
                                                             int R = user.set_user_name(user, new_user_name);
                                                             if(R != 1)
                                                             {
-                                                                System.out.println("This value not updated !");
+                                                                logger.info("This value not updated !");
                                                             }
                                                             else
                                                             {
-                                                                System.out.println("Updated successfuly");
+                                                                logger.info("Updated successfuly");
                                                             }
                                                             break;
                                                         }
                                                         case 2:
                                                         {
-                                                             System.out.println("Enter new first name :");
+                                                             logger.info("Enter new first name :");
                                                             String new_user_name = scanner.next();
                                                             int R = user.set_first_name(user, new_user_name);
                                                             if(R != 1)
                                                             {
-                                                                System.out.println("This value not updated !");
+                                                                logger.info("This value not updated !");
                                                             }
                                                             else
                                                             {
-                                                                System.out.println("Updated successfuly");
+                                                                logger.info("Updated successfuly");
                                                             }
                                                             break;
                                                         }
                                                         case 3:
                                                         {
-                                                            System.out.println("Enter new last name :");
+                                                            logger.info("Enter new last name :");
                                                             String new_user_name = scanner.next();
                                                             int R = user.set_last_name(user, new_user_name);
                                                             if(R != 1)
                                                             {
-                                                                System.out.println("This value not updated !");
+                                                                logger.info("This value not updated !");
                                                             }
                                                             else
                                                             {
-                                                                System.out.println("Updated successfuly");
+                                                                logger.info("Updated successfuly");
                                                             }
                                                             break;
                                                         }
                                                         case 4:
                                                         {
-                                                            System.out.println("Enter new email :");
+                                                            logger.info("Enter new email :");
                                                             String new_user_name = scanner.next();
                                                             int R = user.set_email(user, new_user_name);
                                                             if(R != 1)
                                                             {
-                                                                System.out.println("This value not updated !");
+                                                                logger.info("This value not updated !");
                                                             }
                                                             else
                                                             {
-                                                                System.out.println("Updated successfuly");
+                                                                logger.info("Updated successfuly");
                                                             }
                                                             break;
                                                         }
                                                         case 5:
                                                         {
-                                                            System.out.println("Enter new password :");
+                                                            logger.info("Enter new password :");
                                                             String new_user_name = scanner.next();
                                                             int R = user.set_password(user, new_user_name);
                                                             if(R != 1)
                                                             {
-                                                                System.out.println("This value not updated !");
+                                                                logger.info("This value not updated !");
                                                             }
                                                             else
                                                             {
-                                                                System.out.println("Updated successfuly");
+                                                                logger.info("Updated successfuly");
                                                             }
                                                             break;
                                                         }
                                                         case 6:
                                                         {
-                                                            System.out.println("Enter new image url :");
+                                                            logger.info("Enter new image url :");
                                                             String new_user_name = scanner.next();
                                                             int R = user.set_image(user, new_user_name);
                                                             if(R != 1)
                                                             {
-                                                                System.out.println("This value not updated !");
+                                                                logger.info("This value not updated !");
                                                             }
                                                             else
                                                             {
-                                                                System.out.println("Updated successfuly");
+                                                                logger.info("Updated successfuly");
                                                             }
                                                             break;
                                                         }
                                                         
                                                         default:
                                                         {
-                                                             System.out.println("Incorrect input , please try again.");
+                                                             logger.info("Incorrect input , please try again.");
                                                         }
                                                     }
                                                     
@@ -208,7 +213,7 @@ public class main_test
                                             {
                                                if(user.get_type() == 1)       // vendor after login
                                                {
-                                                   System.out.println("(1) Place controller\n(2) Go back");
+                                                   logger.info("(1) Place controller\n(2) Go back");
                                                    int i_6th = scanner.nextInt();
                                                    if(i_6th == 1)
                                                    {
@@ -220,12 +225,12 @@ public class main_test
                                                    }
                                                    else
                                                    {
-                                                       System.out.println("Incorrect input , please try again.");                                                   
+                                                       logger.info("Incorrect input , please try again.");                                                   
                                                    }
                                                }
                                                else if(user.get_type() == 2) // organizer after login
                                                {
-                                                   System.out.println("(1) Event controller\n(2) Go back");
+                                                   logger.info("(1) Event controller\n(2) Go back");
                                                    int i_6th = scanner.nextInt();
                                                    if(i_6th == 1)
                                                    {
@@ -237,12 +242,12 @@ public class main_test
                                                    }  
                                                    else
                                                    {
-                                                       System.out.println("Incorrect input , please try again.");                                                   
+                                                       logger.info("Incorrect input , please try again.");                                                   
                                                    }
                                                }
                                                else                          //visitor
                                                {
-                                                  System.out.println("(1) Show your Invitations \n(2) Go back");
+                                                  logger.info("(1) Show your Invitations \n(2) Go back");
                                                    int i_6th = scanner.nextInt();
                                                    if(i_6th == 1)
                                                    {
@@ -254,13 +259,13 @@ public class main_test
                                                    }
                                                    else
                                                    {
-                                                       System.out.println("Incorrect input , please try again.");                                                   
+                                                       logger.info("Incorrect input , please try again.");                                                   
                                                    }
                                                }
                                             }
                                             else//incorrect input
                                             {
-                                                System.out.println("Incorrect input , please try again.");
+                                                logger.info("Incorrect input , please try again.");
                                             }
                                             break;
                                         }
@@ -273,18 +278,18 @@ public class main_test
                                     }
                                     else
                                     {
-                                        System.out.println("Incorrect input , please try again.");
+                                        logger.info("Incorrect input , please try again.");
                                     }
                                 }
                             }
                             else//incorrect creds
                             {
-                                System.out.println("(1)Retry again.");
-                                System.out.println("(2)Go back.");
+                                logger.info("(1)Retry again.");
+                                logger.info("(2)Go back.");
                                 int i_3ed = scanner.nextInt();
                                 if(i_3ed == 1)
                                 {
-                                    System.out.println("Try again.");
+                                    logger.info("Try again.");
                                 }
                                 else if(i_3ed == 2)
                                 {
@@ -292,7 +297,7 @@ public class main_test
                                 }
                                 else
                                 {
-                                    System.out.println("Incorrect input , please try again.");
+                                    logger.info("Incorrect input , please try again.");
                                 }
                             }
                             break;
@@ -304,7 +309,7 @@ public class main_test
                     }
                     else// incorrect input
                     {
-                        System.out.println("Incorrect input , please try again.");
+                        logger.info("Incorrect input , please try again.");
                     }                        
                 }
             }
@@ -312,39 +317,39 @@ public class main_test
             {
                 while(true)
                 {
-                     System.out.println("Welcome new user(:");
-                     System.out.println("Enter your information:");
-                     System.out.println("1-User name:");
+                     logger.info("Welcome new user(:");
+                     logger.info("Enter your information:");
+                     logger.info("1-User name:");
                      String user_name = scanner.next();
-                     System.out.println("2-First name:");
+                     logger.info("2-First name:");
                      String first_name = scanner.next();
-                     System.out.println("3-Last name:");
+                     logger.info("3-Last name:");
                      String last_name = scanner.next();
-                     System.out.println("4-Email:");
+                     logger.info("4-Email:");
                      String email = scanner.next();
-                     System.out.println("5-password:");
+                     logger.info("5-password:");
                      String password = scanner.next();
-                     System.out.println("6-Image url:");
+                     logger.info("6-Image url:");
                      String image = scanner.next();
-                     System.out.println("7-User type:\n(1) vendor\n(2) organizer\n(3) visitor");
+                     logger.info("7-User type:\n(1) vendor\n(2) organizer\n(3) visitor");
                      int user_type = scanner.nextInt();
                      if(user_type<1 || user_type>3)
                      {
-                         System.out.println("Incorrect type.");
+                         logger.info("Incorrect type.");
                          break;
                      }
                      else
                      {
                      users U = new users();
                      U.sign_up(user_name, first_name, last_name, email, password, image, user_type);
-                     System.out.println("Account successfully created");
+                     logger.info("Account successfully created");
                      break;
                      }
                 }
             }
             else// incorrect input
             {
-                System.out.println("Incorrect input , please try again.");
+                logger.info("Incorrect input , please try again.");
             }
         }        
     } 
@@ -355,9 +360,9 @@ public class main_test
          while(true)
         {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("(0) Go back");
-            System.out.println("(1) Add new place");                       
-            System.out.println("(2) Open place control panel");
+            logger.info("(0) Go back");
+            logger.info("(1) Add new place");                       
+            logger.info("(2) Open place control panel");
             int i_1st = scanner.nextInt();
             if(i_1st == 0)
             {
@@ -366,41 +371,41 @@ public class main_test
             else if(i_1st == 1) // add new place
             {
                 int vendor_id = user.user_id;
-                System.out.println("1 Enter place name :");
+                logger.info("1 Enter place name :");
                 String name = scanner.next();
-                 System.out.println("2 Enter place location :");
+                 logger.info("2 Enter place location :");
                 String location = scanner.next();
-                System.out.println("3 Enter place capacity :");
+                logger.info("3 Enter place capacity :");
                 int capacity = scanner.nextInt();
-                System.out.println("4 Enter price per hour :");
+                logger.info("4 Enter price per hour :");
                 float price = scanner.nextFloat();
-                System.out.println("5 Enter place rate :");
+                logger.info("5 Enter place rate :");
                 int rate = scanner.nextInt();
                 
                 P.insert_new_place(vendor_id, name, location, capacity, price, rate);
                 
                 
-                System.out.println("Added successfuly");
-                System.out.println("------------------------");
+                logger.info("Added successfuly");
+                logger.info("------------------------");
                 
             }
             else if(i_1st == 2) // plcae control
             {
                 while(true)
                 {
-                    System.out.println("This is your places : \nEnter place id to control it");
+                    logger.info("This is your places : \nEnter place id to control it");
                     P.print_all_places(user.user_id);
                     int place_id = scanner.nextInt();
                     
                     while(true)
                     {
                         
-                        System.out.println("-------------------");
-                        System.out.println("(0) Go back");
-                        System.out.println("(1) Show events order for this place");
-                        System.out.println("(2) Update place");
-                        System.out.println("(3) delete place");
-                        System.out.println("-------------------");
+                        logger.info("-------------------");
+                        logger.info("(0) Go back");
+                        logger.info("(1) Show events order for this place");
+                        logger.info("(2) Update place");
+                        logger.info("(3) delete place");
+                        logger.info("-------------------");
                         int i_2ed = scanner.nextInt();
                         if(i_2ed == 0)
                         {
@@ -424,9 +429,9 @@ public class main_test
         while(true)
         {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("(0) Go back");
-            System.out.println("(1) Add new event");                       
-            System.out.println("(2) Open event control panel");
+            logger.info("(0) Go back");
+            logger.info("(1) Add new event");                       
+            logger.info("(2) Open event control panel");
             int i_1st = scanner.nextInt();
             
             if(i_1st == 0)
@@ -440,52 +445,52 @@ public class main_test
                 
                 E.organizer_id = user.user_id;
                 
-                System.out.println("1 Enter category id in this category list :");
+                logger.info("1 Enter category id in this category list :");
                 Es.print_categories();
                 E.event_category_id = scanner.nextInt();                
                 
-                System.out.println("2 Enter event name :");
+                logger.info("2 Enter event name :");
                 E.name = scanner.next();
                 
-                System.out.println("3 Enter event date :");
+                logger.info("3 Enter event date :");
                 E.event_date = scanner.next();
                 
-                System.out.println("4 Enter event time :");
+                logger.info("4 Enter event time :");
                 E.event_time = scanner.next();
                 
-                System.out.println("5 Enter event description :");
+                logger.info("5 Enter event description :");
                 E.description = scanner.next();
                 
-                System.out.println("6 Enter number of invitees :");
+                logger.info("6 Enter number of invitees :");
                 E.no_vesitors = scanner.nextInt();
                 
-                System.out.println("7 Enter price per visitor :");
+                logger.info("7 Enter price per visitor :");
                 E.price_per_visitor = scanner.nextFloat();
                 
-                System.out.println("8 Enter number of meals :");
+                logger.info("8 Enter number of meals :");
                 E.no_meals = scanner.nextInt();
                 
-                System.out.println("9 Enter price per meal :");
+                logger.info("9 Enter price per meal :");
                 E.meal_price = scanner.nextFloat();
                 
-                System.out.println("10 Enter number of drinks :");
+                logger.info("10 Enter number of drinks :");
                 E.no_drinks = scanner.nextInt();
                 
-                System.out.println("11 Enter price per drink :");
+                logger.info("11 Enter price per drink :");
                 E.drink_price = scanner.nextFloat();
                 
                 Es.insert_new_event(E);
                 
-                System.out.println("Added successfuly");
-                System.out.println("------------------------");
+                logger.info("Added successfuly");
+                logger.info("------------------------");
             }
             else if(i_1st == 2 ) // control panel
             {
                 while(true)
                 {
-                    System.out.println("(0) Go back");
-                    System.out.println("{Your events page}");               
-                    System.out.println("Enter your event number to control it:");
+                    logger.info("(0) Go back");
+                    logger.info("{Your events page}");               
+                    logger.info("Enter your event number to control it:");
                     Events Es = new Events();
                     Es.print_org_events(user.user_id);
                     int i_2ed = scanner.nextInt();
@@ -497,20 +502,20 @@ public class main_test
                     {
                         while(true)
                         {
-                            System.out.println("-----------------------");
-                            System.out.println("Full event information:");               
+                            logger.info("-----------------------");
+                            logger.info("Full event information:");               
                             Es.get_one_event(i_2ed);
-                            System.out.println("-----------------------");
-                            System.out.println("(0) Go back");
-                            System.out.println("(1) Enter to meta(images & videos)");
-                            System.out.println("(2) Enter to Invitations");
-                            System.out.println("(3) Update event information");
-                            System.out.println("(4) Delete this event");
-                            System.out.println("(5) Enter places controler"); 
-                            System.out.println("(6) Search with places ");
-                            System.out.println("(7) Show event finance report");
-                            System.out.println("(8) Show enhancment finance report");
-                            System.out.println("-----------------------");
+                            logger.info("-----------------------");
+                            logger.info("(0) Go back");
+                            logger.info("(1) Enter to meta(images & videos)");
+                            logger.info("(2) Enter to Invitations");
+                            logger.info("(3) Update event information");
+                            logger.info("(4) Delete this event");
+                            logger.info("(5) Enter places controler"); 
+                            logger.info("(6) Search with places ");
+                            logger.info("(7) Show event finance report");
+                            logger.info("(8) Show enhancment finance report");
+                            logger.info("-----------------------");
                             int i_3ed = scanner.nextInt();
                             if(i_3ed == 0) // go back
                             {
@@ -520,11 +525,11 @@ public class main_test
                             {
                                 while(true)
                                 {
-                                    System.out.println("-----------------------");
-                                    System.out.println("Meta data for this event:");
+                                    logger.info("-----------------------");
+                                    logger.info("Meta data for this event:");
                                     Es.get_event_meta(i_2ed);
-                                    System.out.println("(0) Go back");
-                                    System.out.println("(1) Add new link");
+                                    logger.info("(0) Go back");
+                                    logger.info("(1) Add new link");
                                     int i_4th = scanner.nextInt();
                                     if(i_4th == 0)
                                     {
@@ -532,13 +537,13 @@ public class main_test
                                     }
                                     else if(i_4th == 1)
                                     {
-                                        System.out.println("{Add new link}");                                        
-                                        System.out.println("Enter meta link");
+                                        logger.info("{Add new link}");                                        
+                                        logger.info("Enter meta link");
                                         String meta_link = scanner.next();
                                         
-                                        System.out.println("Choose type number ");
-                                        System.out.println("(1) Image");                
-                                        System.out.println("(2) Video");
+                                        logger.info("Choose type number ");
+                                        logger.info("(1) Image");                
+                                        logger.info("(2) Video");
                                         int type = scanner.nextInt();
                                         if(type == 1 || type == 2)
                                         {
@@ -546,7 +551,7 @@ public class main_test
                                         }
                                         else
                                         {
-                                            System.out.println("Incorrect input , please try again.");
+                                            logger.info("Incorrect input , please try again.");
                                         }
                                     }
                                 }
@@ -555,11 +560,11 @@ public class main_test
                             {
                                 while(true)
                                 {
-                                    System.out.println("-----------------------");
-                                    System.out.println("Invitations for this event:");
+                                    logger.info("-----------------------");
+                                    logger.info("Invitations for this event:");
                                     Es.get_Invitations(i_2ed);
-                                    System.out.println("(0) Go back");
-                                    System.out.println("(1) Invite new user ");
+                                    logger.info("(0) Go back");
+                                    logger.info("(1) Invite new user ");
                                     int i_4th = scanner.nextInt();
                                     if(i_4th == 0)
                                     {
@@ -567,15 +572,15 @@ public class main_test
                                     }
                                     else if(i_4th == 1)
                                     {
-                                        System.out.println("{Invite new user}"); 
-                                        System.out.println("Enter user id ");
+                                        logger.info("{Invite new user}"); 
+                                        logger.info("Enter user id ");
                                         int visitor_id = scanner.nextInt();
-                                        System.out.println("Enter  Invitations number for this user ");
+                                        logger.info("Enter  Invitations number for this user ");
                                         int no_invites = scanner.nextInt();
                                         
-                                        System.out.println("Is this a VIP invitation?");
-                                        System.out.println("(0) No");                
-                                        System.out.println("(1) Yes");
+                                        logger.info("Is this a VIP invitation?");
+                                        logger.info("(0) No");                
+                                        logger.info("(1) Yes");
                                         int type = scanner.nextInt();
                                         if(type == 0 || type == 1)
                                         {
@@ -583,7 +588,7 @@ public class main_test
                                         }
                                         else
                                         {
-                                            System.out.println("Incorrect input , please try again.");
+                                            logger.info("Incorrect input , please try again.");
                                         }
                                     }
                                 }
@@ -594,7 +599,7 @@ public class main_test
                             }
                             else if(i_3ed == 4) // Delete event
                             {
-                                System.out.println("Are you sure you want to delete it? If yes, enter the number 1. Otherwise, enter 0: ");
+                                logger.info("Are you sure you want to delete it? If yes, enter the number 1. Otherwise, enter 0: ");
                                 
                                 int ch = scanner.nextInt();
                                 if(ch == 1)
@@ -606,29 +611,29 @@ public class main_test
                             }
                             else if(i_3ed == 5) // choise event place
                             {
-                                System.out.println("Enter place ID :");
+                                logger.info("Enter place ID :");
                                 int place_id = scanner.nextInt();
-                                 System.out.println("Enter start date :");
+                                 logger.info("Enter start date :");
                                 String start_date = scanner.next();
-                                System.out.println("Enter end date :");
+                                logger.info("Enter end date :");
                                 String end_date = scanner.next();
-                                System.out.println("Enter start time :");
+                                logger.info("Enter start time :");
                                 String start_time = scanner.next();
-                                System.out.println("Enter end time :");
+                                logger.info("Enter end time :");
                                 String end_time = scanner.next();
 
                                 Es.order_to_place(place_id, i_2ed , start_date ,end_date ,start_time ,end_time );
-                                System.out.println("Order successfuly");
+                                logger.info("Order successfuly");
                             }
                              else if (i_3ed == 6)
                              {
                                  while(true)
                                  {
-                                     System.out.println("(0) Go back");
-                                     System.out.println("(1) Search by name");                       
-                                     System.out.println("(2) Search by location");
-                                     System.out.println("(3) Search by price");
-                                     System.out.println("(4) Search by period Time");
+                                     logger.info("(0) Go back");
+                                     logger.info("(1) Search by name");                       
+                                     logger.info("(2) Search by location");
+                                     logger.info("(3) Search by price");
+                                     logger.info("(4) Search by period Time");
                                      int oy4 = scanner.nextInt();
                                      if(oy4 == 0)
                                      {
@@ -637,7 +642,7 @@ public class main_test
                                      else if(oy4==1)
                                      {
                                          places od = new places()  ;
-                                         System.out.println("Enter the name of the place to search: ");
+                                         logger.info("Enter the name of the place to search: ");
                                          String name = scanner.next();
                                          od.srch_byname(name);
                                          System.out.print("\n");
@@ -645,7 +650,7 @@ public class main_test
                                      else if (oy4==2)
                                      {
                                          places om=new places() ;
-                                         System.out.println("Enter the location of the place to search: ");
+                                         logger.info("Enter the location of the place to search: ");
                                          String location = scanner.next();
                                          om.srch_bylocation(location);
                                          System.out.print("\n");
@@ -653,7 +658,7 @@ public class main_test
                                      else if(oy4==3)
                                      {
                                          places os =new places() ;
-                                         System.out.println("Enter the maximum hourly price of the place to search: ");
+                                         logger.info("Enter the maximum hourly price of the place to search: ");
                                          float price = scanner.nextFloat();
                                          os.srch_byprice(price);
                                          System.out.print("\n");
@@ -661,11 +666,11 @@ public class main_test
                                      else if(oy4==4)
                                      {
                                          places ov =new places() ;
-                                         System.out.println("Enter start date (YYYY-MM-DD): ");
+                                         logger.info("Enter start date (YYYY-MM-DD): ");
                                          String startDate = scanner.next();
-                                         System.out.println("Enter start time (HH:MM:SS): ");
+                                         logger.info("Enter start time (HH:MM:SS): ");
                                          String startTime = scanner.next();
-                                         System.out.println("Enter end time (HH:MM:SS): ");
+                                         logger.info("Enter end time (HH:MM:SS): ");
                                          String endTime = scanner.next();
                                          ov.srch_byperiod(startDate, startTime, endTime);
                                          System.out.print("\n");
@@ -676,7 +681,7 @@ public class main_test
                              {
                                  finance f = new finance();
                                  f.event_report(i_2ed);
-                                 System.out.println("(0) Go Back");
+                                 logger.info("(0) Go Back");
                                  int i_4ed = scanner.nextInt();
                                  if(i_4ed == 0)
                                  {
@@ -687,7 +692,7 @@ public class main_test
                              {
                                 finance f = new finance();
                                  f.enhancment_report(i_2ed);
-                                 System.out.println("(0) Go Back");
+                                 logger.info("(0) Go Back");
                                  int i_4ed = scanner.nextInt();
                                  if(i_4ed == 0)
                                  {
@@ -701,7 +706,7 @@ public class main_test
             }
             else
             {
-                System.out.println("Incorrect input , please try again.");
+                logger.info("Incorrect input , please try again.");
             }
         }
     } 
@@ -719,7 +724,7 @@ public class main_test
             }
             else
             {      
-               System.out.println("Incorrect input , please try again.");
+               logger.info("Incorrect input , please try again.");
             }
         }    
     }
