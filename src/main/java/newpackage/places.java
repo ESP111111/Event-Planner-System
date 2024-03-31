@@ -152,12 +152,7 @@ public class places
  // search code
   
   
-      public void srch_byname(){
-         
-         Scanner scanner = new Scanner(System.in);
-         System.out.println("Enter the name of the place to search: ");
-         String placeName = scanner.nextLine();
-         
+      public void srch_byname(String placeName){
            String sql = "SELECT * FROM place WHERE name = ?";
            String sqlReservation = "SELECT COUNT(*) AS reservation_count FROM event_place_order WHERE place_id = ?";
            String sqlReservationDetails = "SELECT start_date, end_date, start_time, end_time FROM event_place_order WHERE place_id = ?";
@@ -191,7 +186,7 @@ public class places
                 float rate = rs.getFloat("rate");
 
                 // Print the place details
-                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking ");
+                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking \n");
 
                 pstmtReservationDetails.setInt(1, id);
                 ResultSet rsReservationDetails = pstmtReservationDetails.executeQuery();
@@ -229,15 +224,10 @@ public class places
           
      }
           
-          
-          
-          
-     public void srch_bylocation()
-      
+     public void srch_bylocation(String locationName)    
       {
-        Scanner scanner = new Scanner(System.in);
-System.out.println("Enter the location of the place to search: ");
-String locationName = scanner.nextLine();
+       
+
 String sql = "SELECT * FROM place WHERE location = ?";
 String sqlReservation = "SELECT COUNT(*) AS reservation_count FROM event_place_order WHERE place_id = ?";
 String sqlReservationDetails = "SELECT start_date, end_date, start_time, end_time FROM event_place_order WHERE place_id = ?";
@@ -275,7 +265,7 @@ try (Connection conn = DatabaseConnection.getConnection();
                 float rate = rs.getFloat("rate");
 
                 // Print the place details
-                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking ");
+                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking \n");
 
                 
                 
@@ -319,14 +309,8 @@ try (Connection conn = DatabaseConnection.getConnection();
       }
      
     
-    
-    public void srch_byprice()
+    public void srch_byprice(float place_maxHourlyPrice)
     {
-         
-        Scanner scanner = new Scanner(System.in);
-System.out.println("Enter the maximum hourly price of the place to search: ");
-float place_maxHourlyPrice = scanner.nextFloat();
-
 String sql = "SELECT * FROM place WHERE Price_per_hour <= ?";
 String sqlReservation = "SELECT COUNT(*) AS reservation_count FROM event_place_order WHERE place_id = ?";
 String sqlReservationDetails = "SELECT start_date, end_date, start_time, end_time FROM event_place_order WHERE place_id = ?";
@@ -358,7 +342,7 @@ try ( Connection conn = DatabaseConnection.getConnection();
                 float rate = rs.getFloat("rate");
 
                 // Print the place details
-                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking ");
+                System.out.print("ID: " + id + "|" + "Vendor ID: " + vendorId + "|" + "Name: " + name + "|" + "Location: " + location + "|" + "Capacity: " + capacity + "|" + "Price Per hour: " + pricePerHour + "|" + "Rate: " + rate + "|" + " has been booking \n");
 
                 pstmtReservationDetails.setInt(1, id);
                 ResultSet rsReservationDetails = pstmtReservationDetails.executeQuery();
@@ -399,17 +383,8 @@ try ( Connection conn = DatabaseConnection.getConnection();
     }
     
     
-    public void srch_byperiod()
+    public void srch_byperiod(String startDate , String startTime , String endTime)
     {  
-          Scanner scanner = new Scanner(System.in);
-
-System.out.println("Enter start date (YYYY-MM-DD): ");
-String startDate = scanner.nextLine();
-System.out.println("Enter start time (HH:MM:SS): ");
-String startTime = scanner.nextLine();
-System.out.println("Enter end time (HH:MM:SS): ");
-String endTime = scanner.nextLine();
-
 String sql = "SELECT p.id, p.name, p.location, p.capacity, p.Price_per_hour, p.rate " +
              "FROM place p " +
              "WHERE p.id NOT IN (" +
@@ -428,13 +403,13 @@ try (Connection conn = DatabaseConnection.getConnection();
     System.out.println("The places available for booking based on the date you entered:");
     System.out.print("\n");
     while (rs.next()) {
-        // Use the column names as they appear in the SQL statement above
+        
         System.out.println("Place ID: " + rs.getInt("id") + " | " +
                            "Name: " + rs.getString("name") + " | " +
                            "Location: " + rs.getString("location") + " | " +
                            "Capacity: " + rs.getInt("capacity") + " | " +
                            "Price Per Hour: " + rs.getFloat("Price_per_hour") + " | " +
-                           "Rate: " + rs.getFloat("rate"));
+                           "Rate: " + rs.getFloat("rate")+"\n");
     }
 } catch (SQLException e) {
     System.out.println("Error executing query: " + e.getMessage());
