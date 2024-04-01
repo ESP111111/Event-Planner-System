@@ -8,12 +8,18 @@ import java.sql.Statement;
 
 public class Events
 {
+    public String ErrorMsg ;
+    public Events()
+    {
+        ErrorMsg = "Error closing ResultSet: ";
+    }
     public void print_categories()
     {
        String query = " select * from event_category";
        Statement stmt = null;
-        Connection conn = null;
-        ResultSet rs = null;
+       Connection conn = null;
+       ResultSet rs = null;
+        
        try {
             conn = DatabaseConnection.getConnection();
             stmt = conn.createStatement();
@@ -36,7 +42,7 @@ public class Events
             try {
                 rs.close();
             } catch (SQLException e) {
-                System.out.println("Error closing ResultSet: " + e.getMessage());
+                System.out.println(ErrorMsg + e.getMessage());
             }
         }
         if (stmt != null) {
@@ -104,7 +110,7 @@ public class Events
             try {
                 rs.close();
             } catch (SQLException e) {
-                System.out.println("Error closing ResultSet: " + e.getMessage());
+                System.out.println(ErrorMsg + e.getMessage());
             }
         }
         if (stmt != null) {
@@ -118,7 +124,7 @@ public class Events
             try {
                 con.close();
             } catch (SQLException e) {
-                System.out.println("Error closing ResultSet: " + e.getMessage());
+                System.out.println(ErrorMsg + e.getMessage());
             }
         }
         if (pst != null) {
@@ -159,7 +165,7 @@ public class Events
             try {
                 rs.close();
             } catch (SQLException e) {
-                System.out.println("Error closing ResultSet: " + e.getMessage());
+                System.out.println(ErrorMsg + e.getMessage());
             }
         }
         if (conn != null) {
@@ -173,7 +179,7 @@ public class Events
             try {
                 pst.close();
             } catch (SQLException e) {
-                System.out.println("Error closing ResultSet: " + e.getMessage());
+                System.out.println(ErrorMsg + e.getMessage());
             }
         }
           }
