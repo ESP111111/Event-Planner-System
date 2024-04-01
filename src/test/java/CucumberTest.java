@@ -8,5 +8,5 @@ import org.junit.runner.RunWith;
     glue = "", 
     plugin = {"pretty", "html:target/cucumber-report.html"}
 )
-public class CucumberTestRunner {  
+public class CucumberTest {  
 }
