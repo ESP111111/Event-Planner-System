@@ -22,32 +22,34 @@ public class finance
 
    public void event_report(int event_id)
     {
-        String query= "select \n" +
-                "event_info.no_visitor ,\n" +
-                "event_info.price_per_person,\n" +
-                "CAST(no_visitor AS DECIMAL(10,2)) * CAST(price_per_person AS DECIMAL(10,2)) as \"Total visitors price \",\n" +
-                "event_info.no_meals,\n" +
-                "event_info.meal_price,\n" +
-                "CAST(no_meals AS DECIMAL(10,2)) * CAST(meal_price AS DECIMAL(10,2)) as \"Total meals price \",\n" +
-                "event_info.no_drinks,\n" +
-                "event_info.drink_price,\n" +
-                "CAST(no_drinks AS DECIMAL(10,2)) * CAST(drink_price AS DECIMAL(10,2)) as \"Total drinks price \",\n" +
-                "\n" +
-                " TIMESTAMPDIFF(\n" +
-                "        HOUR,\n" +
-                "        CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),\n" +
-                "        CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))\n" +
-                "    ) as number_of_hours,\n" +
-                "place.Price_per_hour ,\n" +
-                "CAST(Price_per_hour AS DECIMAL(10,2)) * CAST( TIMESTAMPDIFF(\n" +
-                "        HOUR,\n" +
-                "        CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),\n" +
-                "        CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))\n" +
-                "    ) AS DECIMAL(10,2)) as \"Total place price \"\n" +
-                "from event_info \n" +
-                "left join event_place_order on event_place_order.event_info_id = event_info.id\n" +
-                "left join place on place.id = event_place_order.place_id\n" +
-                "where event_info.id = ? ;";
+        String query= """
+                      select 
+                          event_info.no_visitor,
+                          event_info.price_per_person,
+                          CAST(no_visitor AS DECIMAL(10,2)) * CAST(price_per_person AS DECIMAL(10,2)) as "Total visitors price",
+                          event_info.no_meals,
+                          event_info.meal_price,
+                          CAST(no_meals AS DECIMAL(10,2)) * CAST(meal_price AS DECIMAL(10,2)) as "Total meals price",
+                          event_info.no_drinks,
+                          event_info.drink_price,
+                          CAST(no_drinks AS DECIMAL(10,2)) * CAST(drink_price AS DECIMAL(10,2)) as "Total drinks price",
+                      
+                          TIMESTAMPDIFF(
+                              HOUR,
+                              CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),
+                              CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))
+                          ) as number_of_hours,
+                          place.Price_per_hour,
+                          CAST(Price_per_hour AS DECIMAL(10,2)) * CAST( TIMESTAMPDIFF(
+                              HOUR,
+                              CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),
+                              CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))
+                          ) AS DECIMAL(10,2)) as "Total place price"
+                      from event_info
+                      left join event_place_order on event_place_order.event_info_id = event_info.id
+                      left join place on place.id = event_place_order.place_id
+                      where event_info.id = ?;
+                      """;
         Connection conn = null;
         ResultSet rs  =null;
         PreparedStatement pst = null;
@@ -143,76 +145,80 @@ public class finance
    
   public void enhancment_report(int event_id)
   {
-       String query= "select \n" +
-                "event_info.no_visitor ,\n" +
-                "event_info.price_per_person,\n" +
-                "CAST(no_visitor AS DECIMAL(10,2)) * CAST(price_per_person AS DECIMAL(10,2)) as \"Total visitors price \",\n" +
-                "event_info.no_meals,\n" +
-                "event_info.meal_price,\n" +
-                "CAST(no_meals AS DECIMAL(10,2)) * CAST(meal_price AS DECIMAL(10,2)) as \"Total meals price \",\n" +
-                "event_info.no_drinks,\n" +
-                "event_info.drink_price,\n" +
-                "CAST(no_drinks AS DECIMAL(10,2)) * CAST(drink_price AS DECIMAL(10,2)) as \"Total drinks price \",\n" +
-                "\n" +
-                " TIMESTAMPDIFF(\n" +
-                "        HOUR,\n" +
-                "        CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),\n" +
-                "        CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))\n" +
-                "    ) as number_of_hours,\n" +
-                "place.Price_per_hour ,\n" +
-                "CAST(Price_per_hour AS DECIMAL(10,2)) * CAST( TIMESTAMPDIFF(\n" +
-                "        HOUR,\n" +
-                "        CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),\n" +
-                "        CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))\n" +
-                "    ) AS DECIMAL(10,2)) as \"Total place price \",\n" +
-                "place.capacity , event_info.no_visitor \n"
-               + "from event_info \n" +
-                "left join event_place_order on event_place_order.event_info_id = event_info.id\n" +
-                "left join place on place.id = event_place_order.place_id\n" +
-                "where event_info.id = ? ;";
+       String query= """
+                     select 
+                         event_info.no_visitor,
+                         event_info.price_per_person,
+                         CAST(no_visitor AS DECIMAL(10,2)) * CAST(price_per_person AS DECIMAL(10,2)) as "Total visitors price",
+                         event_info.no_meals,
+                         event_info.meal_price,
+                         CAST(no_meals AS DECIMAL(10,2)) * CAST(meal_price AS DECIMAL(10,2)) as "Total meals price",
+                         event_info.no_drinks,
+                         event_info.drink_price,
+                         CAST(no_drinks AS DECIMAL(10,2)) * CAST(drink_price AS DECIMAL(10,2)) as "Total drinks price",
+                     
+                         TIMESTAMPDIFF(
+                             HOUR,
+                             CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),
+                             CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))
+                         ) as number_of_hours,
+                         place.Price_per_hour,
+                         CAST(Price_per_hour AS DECIMAL(10,2)) * CAST( TIMESTAMPDIFF(
+                             HOUR,
+                             CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),
+                             CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))
+                         ) AS DECIMAL(10,2)) as "Total place price",
+                         place.capacity, event_info.no_visitor
+                     from event_info
+                     left join event_place_order on event_place_order.event_info_id = event_info.id
+                     left join place on place.id = event_place_order.place_id
+                     where event_info.id = ?;
+                     """;
        
-       String query1 = "SELECT\n" +
-"    CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS \"no_visitors\",\n" +
-"    event_info.price_per_person,\n" +
-"    CAST(CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS DECIMAL(10,2)) * CAST(price_per_person AS DECIMAL(10,2)) AS \"Total visitors price\",\n" +
-"    \n" +
-"    CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.15 AS DECIMAL(10,2)) + no_visitor AS \"no_meals\",\n" +
-"    event_info.meal_price,\n" +
-"    CAST(CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.15 AS DECIMAL(10,2)) + no_visitor AS DECIMAL(10,2)) * CAST(meal_price AS DECIMAL(10,2)) AS \"Total meals price\",\n" +
-"    \n" +
-"    CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.20 AS DECIMAL(10,2)) + no_visitor AS \"no_drinks\",\n" +
-"    event_info.drink_price,\n" +
-"    CAST(CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.20 AS DECIMAL(10,2)) + no_visitor AS DECIMAL(10,2)) * CAST(drink_price AS DECIMAL(10,2)) AS \"Total drinks price\",\n" +
-"    \n" +
-"    TIMESTAMPDIFF(\n" +
-"        HOUR,\n" +
-"        CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),\n" +
-"        CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))\n" +
-"    ) AS number_of_hours,\n" +
-"    \n" +
-"    CAST(price_per_hour AS DECIMAL(10,2)) / CAST(place.capacity AS DECIMAL(10,2)) *\n" +
-"    (CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + CAST(no_visitor AS DECIMAL(10,2)))\n" +
-"    AS `new price`,\n" +
-"    \n" +
-"    CAST(\n" +
-"        CAST(price_per_hour AS DECIMAL(10,2)) / CAST(place.capacity AS DECIMAL(10,2)) *\n" +
-"        (CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + CAST(no_visitor AS DECIMAL(10,2)))\n" +
-"        AS DECIMAL(10,2)\n" +
-"    ) * CAST(\n" +
-"        TIMESTAMPDIFF(\n" +
-"            HOUR,\n" +
-"            CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),\n" +
-"            CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))\n" +
-"        ) AS DECIMAL(10,2)\n" +
-"    ) AS \"Total place price\",\n" +
-"    \n" +
-"    CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS \"new capacity\",\n" +
-"    event_info.no_visitor\n" +
-"\n" +
-"FROM event_info\n" +
-"LEFT JOIN event_place_order ON event_place_order.event_info_id = event_info.id\n" +
-"LEFT JOIN place ON place.id = event_place_order.place_id\n" +
-"WHERE event_info.id = ? ;";
+       String query1 = """
+                       SELECT
+                           CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS "no_visitors",
+                           event_info.price_per_person,
+                           CAST(CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS DECIMAL(10,2)) * CAST(price_per_person AS DECIMAL(10,2)) AS "Total visitors price",
+                           
+                           CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.15 AS DECIMAL(10,2)) + no_visitor AS "no_meals",
+                           event_info.meal_price,
+                           CAST(CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.15 AS DECIMAL(10,2)) + no_visitor AS DECIMAL(10,2)) * CAST(meal_price AS DECIMAL(10,2)) AS "Total meals price",
+                           
+                           CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.20 AS DECIMAL(10,2)) + no_visitor AS "no_drinks",
+                           event_info.drink_price,
+                           CAST(CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.20 AS DECIMAL(10,2)) + no_visitor AS DECIMAL(10,2)) * CAST(drink_price AS DECIMAL(10,2)) AS "Total drinks price",
+                           
+                           TIMESTAMPDIFF(
+                               HOUR,
+                               CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),
+                               CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))
+                           ) AS number_of_hours,
+                           
+                           CAST(price_per_hour AS DECIMAL(10,2)) / CAST(place.capacity AS DECIMAL(10,2)) *
+                           (CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + CAST(no_visitor AS DECIMAL(10,2)))
+                           AS `new price`,
+                           
+                           CAST(
+                               CAST(price_per_hour AS DECIMAL(10,2)) / CAST(place.capacity AS DECIMAL(10,2)) *
+                               (CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + CAST(no_visitor AS DECIMAL(10,2)))
+                               AS DECIMAL(10,2)
+                           ) * CAST(
+                               TIMESTAMPDIFF(
+                                   HOUR,
+                                   CONCAT(CAST(start_date AS CHAR), ' ', CAST(start_time AS CHAR)),
+                                   CONCAT(CAST(end_date AS CHAR), ' ', CAST(end_time AS CHAR))
+                               ) AS DECIMAL(10,2)
+                           ) AS "Total place price",
+                           
+                           CAST(no_visitor AS DECIMAL(10,2)) * CAST(0.1 AS DECIMAL(10,2)) + no_visitor AS "new capacity",
+                           event_info.no_visitor
+                       
+                       FROM event_info
+                       LEFT JOIN event_place_order ON event_place_order.event_info_id = event_info.id
+                       LEFT JOIN place ON place.id = event_place_order.place_id
+                       WHERE event_info.id = ? ;
+                       """;
          Connection conn = null;
         ResultSet rs  =null;
         PreparedStatement pst = null;
