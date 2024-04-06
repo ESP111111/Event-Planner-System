@@ -7,8 +7,8 @@ Feature: User Login Logout
     Then the login should be successful with user id 51 and user type 2 and flag 1
 
   Scenario: Vendor logs in successfully
-    Given an vendor user exists with username "Aya" and password "Aya11#*"
-    When the user logs in with username "Aya" and password "Aya11#*"
+    Given an vendor user exists with username "Aya" and password "Aya12345"
+    When the user logs in with username "Aya" and password "Aya12345"
     Then the login should be successful with user id 14 and user type 1 and flag 1
 
   Scenario: Visitor logs in successfully
